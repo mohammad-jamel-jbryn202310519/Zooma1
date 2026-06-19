@@ -50,8 +50,8 @@ export default function ContactForm({ translations: t }: ContactFormProps) {
 
   if (isSuccess) {
     return (
-      <div className="text-center p-8 bg-green-50 rounded-2xl border border-green-100">
-        <h3 className="text-xl font-bold text-green-800 mb-2">{t.success}</h3>
+      <div className="text-center p-8 bg-green-500/20 backdrop-blur-md rounded-2xl border border-green-400/30">
+        <h3 className="text-xl font-bold text-white mb-2">{t.success}</h3>
       </div>
     );
   }
@@ -60,32 +60,32 @@ export default function ContactForm({ translations: t }: ContactFormProps) {
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-foreground/70 mb-2">{t.name} *</label>
-          <input required type="text" id="name" name="name" className="w-full px-4 py-3 rounded-xl border border-nude-dark focus:ring-2 focus:ring-brand focus:border-transparent outline-none transition-all" />
+          <label htmlFor="name" className="block text-sm font-medium text-white/90 mb-2">{t.name} *</label>
+          <input required type="text" id="name" name="name" className="w-full px-4 py-3 bg-white text-gray-900 rounded-xl border border-white/20 focus:ring-2 focus:ring-white focus:border-transparent outline-none transition-all shadow-inner" />
         </div>
         <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-foreground/70 mb-2">{t.phone} *</label>
-          <input required type="tel" id="phone" name="phone" className="w-full px-4 py-3 rounded-xl border border-nude-dark focus:ring-2 focus:ring-brand focus:border-transparent outline-none transition-all" />
+          <label htmlFor="phone" className="block text-sm font-medium text-white/90 mb-2">{t.phone} *</label>
+          <input required type="tel" id="phone" name="phone" className="w-full px-4 py-3 bg-white text-gray-900 rounded-xl border border-white/20 focus:ring-2 focus:ring-white focus:border-transparent outline-none transition-all shadow-inner" />
         </div>
       </div>
       <div className="grid md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="business_name" className="block text-sm font-medium text-foreground/70 mb-2">{t.business_name} *</label>
-          <input required type="text" id="business_name" name="business_name" className="w-full px-4 py-3 rounded-xl border border-nude-dark focus:ring-2 focus:ring-brand focus:border-transparent outline-none transition-all" />
+          <label htmlFor="business_name" className="block text-sm font-medium text-white/90 mb-2">{t.business_name} *</label>
+          <input required type="text" id="business_name" name="business_name" className="w-full px-4 py-3 bg-white text-gray-900 rounded-xl border border-white/20 focus:ring-2 focus:ring-white focus:border-transparent outline-none transition-all shadow-inner" />
         </div>
         <div>
-          <label htmlFor="business_type" className="block text-sm font-medium text-foreground/70 mb-2">{t.business_type} *</label>
-          <input required type="text" id="business_type" name="business_type" className="w-full px-4 py-3 rounded-xl border border-nude-dark focus:ring-2 focus:ring-brand focus:border-transparent outline-none transition-all" />
+          <label htmlFor="business_type" className="block text-sm font-medium text-white/90 mb-2">{t.business_type} *</label>
+          <input required type="text" id="business_type" name="business_type" className="w-full px-4 py-3 bg-white text-gray-900 rounded-xl border border-white/20 focus:ring-2 focus:ring-white focus:border-transparent outline-none transition-all shadow-inner" />
         </div>
       </div>
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-foreground/70 mb-2">{t.message}</label>
-        <textarea id="message" name="message" rows={4} className="w-full px-4 py-3 rounded-xl border border-nude-dark focus:ring-2 focus:ring-brand focus:border-transparent outline-none transition-all resize-none"></textarea>
+        <label htmlFor="message" className="block text-sm font-medium text-white/90 mb-2">{t.message}</label>
+        <textarea id="message" name="message" rows={4} className="w-full px-4 py-3 bg-white text-gray-900 rounded-xl border border-white/20 focus:ring-2 focus:ring-white focus:border-transparent outline-none transition-all resize-none shadow-inner"></textarea>
       </div>
       <button 
         type="submit" 
         disabled={isSubmitting}
-        className="w-full py-4 bg-brand text-white rounded-xl font-bold text-lg hover:bg-brand-dark transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+        className="w-full py-4 bg-white text-brand rounded-xl font-bold text-lg hover:bg-gray-100 transition-colors shadow-xl disabled:opacity-70 disabled:cursor-not-allowed"
       >
         {isSubmitting ? '...' : t.submit}
       </button>

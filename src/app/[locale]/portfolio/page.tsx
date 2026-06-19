@@ -13,12 +13,12 @@ export default async function PortfolioPage({ params }: { params: Promise<{ loca
   const portfolioItems = (data as any[]) || [];
 
   return (
-    <div className="min-h-screen bg-white pt-24 pb-32">
+    <div className="min-h-screen bg-transparent pt-24 pb-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Reveal>
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-brand">{t("title")}</h1>
-            <p className="text-foreground/70 max-w-2xl mx-auto text-lg">{t("subtitle")}</p>
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-white drop-shadow-md">{t("title")}</h1>
+            <p className="text-white/80 max-w-2xl mx-auto text-lg font-medium">{t("subtitle")}</p>
           </div>
         </Reveal>
 
@@ -26,8 +26,8 @@ export default async function PortfolioPage({ params }: { params: Promise<{ loca
           {portfolioItems.length > 0 ? (
             portfolioItems.map((item, idx) => (
               <Reveal key={item.id} delay={0.1 * idx}>
-                <div className="group rounded-3xl overflow-hidden bg-nude border border-beige hover:shadow-2xl transition-all duration-300">
-                  <div className="aspect-[4/3] bg-nude-dark relative overflow-hidden">
+                <div className="group rounded-3xl overflow-hidden bg-white/10 backdrop-blur-md border border-white/20 hover:shadow-2xl transition-all duration-300">
+                  <div className="aspect-[4/3] bg-black/20 relative overflow-hidden">
                     {item.image_url ? (
                       <Image
                         src={item.image_url}
@@ -36,19 +36,19 @@ export default async function PortfolioPage({ params }: { params: Promise<{ loca
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     ) : (
-                      <div className="absolute inset-0 flex items-center justify-center text-foreground/20 font-bold text-2xl">
+                      <div className="absolute inset-0 flex items-center justify-center text-white/20 font-bold text-2xl">
                         ZOOMA
                       </div>
                     )}
                   </div>
                   <div className="p-6">
-                    <span className="text-brand text-xs font-bold uppercase tracking-wider mb-2 block">{item.business_type}</span>
-                    <h3 className="text-xl font-bold mb-2 text-foreground">{item.client_name}</h3>
-                    <p className="text-foreground/70 text-sm line-clamp-2">
+                    <span className="text-white/70 bg-black/20 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4 inline-block">{item.business_type}</span>
+                    <h3 className="text-xl font-bold mb-2 text-white">{item.client_name}</h3>
+                    <p className="text-white/80 text-sm line-clamp-2">
                       {locale === 'ar' ? item.description_ar : item.description_en}
                     </p>
                     {item.link_url && (
-                      <a href={item.link_url} target="_blank" rel="noopener noreferrer" className="mt-4 inline-block text-brand font-semibold hover:underline text-sm">
+                      <a href={item.link_url} target="_blank" rel="noopener noreferrer" className="mt-4 inline-block text-white font-bold bg-white/20 px-4 py-2 rounded-lg hover:bg-white/30 transition-colors text-sm">
                         {locale === 'ar' ? 'زيارة الموقع' : 'Visit Website'}
                       </a>
                     )}
