@@ -70,12 +70,12 @@ export default function ContactForm({ translations: t }: ContactFormProps) {
     );
   }
 
-  const inputClasses = "w-full px-5 py-4 bg-white/10 text-white rounded-xl border border-white/15 focus:ring-2 focus:ring-white/30 focus:border-transparent outline-none transition-all placeholder:text-white/30 hover:bg-white/15 focus:bg-white/15";
-  const labelClasses = "block text-sm font-semibold text-white/80 mb-2";
+  const inputClasses = "w-full px-3.5 py-3 md:px-5 md:py-4 bg-white/10 text-white text-sm md:text-base rounded-xl border border-white/15 focus:ring-2 focus:ring-white/30 focus:border-transparent outline-none transition-all placeholder:text-white/30 hover:bg-white/15 focus:bg-white/15";
+  const labelClasses = "block text-xs md:text-sm font-semibold text-white/80 mb-1.5";
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
-      <div className="grid md:grid-cols-2 gap-5">
+    <form onSubmit={handleSubmit} className="space-y-3 md:space-y-5">
+      <div className="grid md:grid-cols-2 gap-3 md:gap-5">
         <div>
           <label htmlFor="name" className={labelClasses}>{t.name} *</label>
           <input required type="text" id="name" name="name" className={inputClasses} />
@@ -85,7 +85,7 @@ export default function ContactForm({ translations: t }: ContactFormProps) {
           <input required type="tel" id="phone" name="phone" className={inputClasses} />
         </div>
       </div>
-      <div className="grid md:grid-cols-2 gap-5">
+      <div className="grid md:grid-cols-2 gap-3 md:gap-5">
         <div>
           <label htmlFor="business_name" className={labelClasses}>{t.business_name} *</label>
           <input required type="text" id="business_name" name="business_name" className={inputClasses} />
@@ -102,7 +102,7 @@ export default function ContactForm({ translations: t }: ContactFormProps) {
       <motion.button 
         type="submit" 
         disabled={isSubmitting}
-        className="w-full py-5 bg-white text-[#7c3aed] rounded-xl font-bold text-lg shadow-xl disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 btn-glow"
+        className="w-full py-3.5 md:py-5 bg-white text-[#7c3aed] rounded-xl font-bold text-sm md:text-lg shadow-xl disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 btn-glow"
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
       >
