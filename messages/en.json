@@ -1,7 +1,7 @@
 {
   "Navigation": {
     "home": "Home",
-    "package": "Our Package",
+    "package": "Our Packages",
     "portfolio": "Portfolio",
     "contact": "Contact Us"
   },
@@ -10,34 +10,46 @@
     "subtitle_marketing": "Marketing",
     "badge": "A company that merged all developers in one place",
     "subtitle": "The smart one seizes the opportunity! At ZOOMA, we've gathered web developers, social media and brand identity designers, Google Maps specialists, and Meta ads professionals (Facebook & Instagram) to boost your visibility... all in one place! Instead of dealing with multiple agencies, we combined everything you need to upgrade your store. Jordan is embracing this digital evolution, be among the first!",
-    "cta": "View Package",
+    "cta": "View Our Packages",
     "secondaryCta": "Contact Us"
   },
   "Package": {
-    "title": "The Strongest and Best-Selling Package Now",
-    "subtitle": "Catch the commercial stores offer! Whatever your store is, the 35 piasters package keeps you up to date and increases your income. The subscription gives you:",
+    "title": "Stores Package",
+    "subtitle": "For any store — supermarket, restaurant, watch shop, food stall, or any business big or small. This package is for you!",
+    "original_price": "30 JOD/month",
     "price_per_day": "30 JOD/month",
     "discount_price": "10.5 JOD",
     "discount_monthly": "(Equivalent to 35 piasters daily)",
     "tagline": "Save your spare change every day (35 piasters)",
-    "validity_note": "Note: This offer is for a very limited time",
-    "cta": "Order the Service Now from ZOOMA",
+    "validity_note": "Limited time offer",
+    "cta": "Subscribe Now",
     "features": {
       "f1": "Website design showcasing your business, products, services, and prices",
       "f2": "Social media post designs upon request (10 per month)",
       "f3": "Adding your location to Google Maps to appear in searches",
-      "f4": "Receive customer orders directly via WhatsApp or any app you choose when they order from the website",
-      "f5": "A plastic QR stand placed in your store for customers to scan, containing the website, menu, and products",
-      "f6": "Brand identity design and custom cards introducing your store and website",
+      "f4": "Receive customer orders directly via WhatsApp or any app you choose",
+      "f5": "A plastic QR stand placed in your store for customers to scan",
+      "f6": "Brand identity design and custom cards",
       "f7": "Technical support throughout the subscription period"
     }
   },
   "Companies": {
     "title": "Companies Package",
-    "price": "30 JOD/month",
+    "original_price": "50 JOD/month",
+    "discount_price": "30 JOD",
+    "discount_monthly": "Instead of 50 JOD — Save 20 JOD!",
     "validity_note": "Limited time offer",
     "cta": "Contact us via WhatsApp",
-    "description": "For company subscription details, please contact us"
+    "description": "For any company — commercial, service-based, or any type. Contact us directly for subscription details.",
+    "features": {
+      "f1": "Full professional company website",
+      "f2": "Complete visual identity (logo, colors, fonts)",
+      "f3": "Full social media management — Facebook & Instagram",
+      "f4": "Meta advertising campaigns to boost sales",
+      "f5": "Adding your company to Google Maps",
+      "f6": "Receive customer orders via WhatsApp and website",
+      "f7": "VIP technical support throughout the subscription"
+    }
   },
   "Contact": {
     "title": "Contact Us",
