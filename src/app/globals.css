@@ -1,9 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #8d41f7;
+  --background: #6b21c7;
   --foreground: #ffffff;
   --dir: ltr;
+  --brand: #8d41f7;
+  --brand-dark: #6c2bca;
+  --brand-light: #a66bf9;
+  --glow-color: rgba(141, 65, 247, 0.6);
 }
 
 @theme inline {
@@ -20,14 +24,221 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #8d41f7;
+    --background: #6b21c7;
     --foreground: #ffffff;
   }
 }
 
+/* ===== BASE BODY ===== */
 body {
-  background: var(--background);
+  background: linear-gradient(135deg, #4c1d95 0%, #7c3aed 30%, #8b5cf6 50%, #6d28d9 70%, #4c1d95 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
   direction: var(--dir);
+  overflow-x: hidden;
+}
+
+/* ===== GRADIENT SHIFT ===== */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ===== FLOATING ORB ===== */
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -50px) scale(1.1); }
+  50% { transform: translate(-20px, 20px) scale(0.95); }
+  75% { transform: translate(20px, 40px) scale(1.05); }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(40px, -30px) rotate(5deg); }
+  66% { transform: translate(-30px, 50px) rotate(-5deg); }
+}
+
+/* ===== TEXT SHIMMER ===== */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.text-shimmer {
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #e0c3fc 20%,
+    #ffffff 40%,
+    #c4b5fd 60%,
+    #ffffff 80%,
+    #e0c3fc 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+}
+
+/* ===== GRADIENT TEXT ===== */
+.text-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 50%, #ffffff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+
+/* ===== GLOW PULSE ===== */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(141, 65, 247, 0.3), 0 0 60px rgba(141, 65, 247, 0.1); }
+  50% { box-shadow: 0 0 40px rgba(141, 65, 247, 0.6), 0 0 100px rgba(141, 65, 247, 0.2); }
+}
+
+.glow-card {
+  animation: glowPulse 4s ease-in-out infinite;
+}
+
+/* ===== GLASSMORPHISM ===== */
+.glass {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ===== HOVER LIFT ===== */
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 40px rgba(141, 65, 247, 0.2);
+}
+
+/* ===== STAGGER CHILDREN ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stagger-child {
+  animation: fadeInUp 0.6s ease both;
+}
+
+/* ===== FLOATING PARTICLES ===== */
+@keyframes particleDrift {
+  0%, 100% { 
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { 
+    transform: translateY(-100vh) translateX(50px);
+    opacity: 0;
+  }
+}
+
+/* ===== BUTTON GLOW ===== */
+@keyframes btnGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2), 0 0 30px rgba(141, 65, 247, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4), 0 0 60px rgba(141, 65, 247, 0.5);
+  }
+}
+
+.btn-glow {
+  animation: btnGlow 3s ease-in-out infinite;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-glow:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.5), 0 0 80px rgba(141, 65, 247, 0.6);
+}
+
+/* ===== BADGE PULSE ===== */
+@keyframes badgePulse {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+  }
+  50% { 
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+  }
+}
+
+.badge-pulse {
+  animation: badgePulse 2s ease-in-out infinite;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(141, 65, 247, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(141, 65, 247, 0.8);
+}
+
+/* ===== PILL FEATURE ===== */
+.pill-feature {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(230, 217, 249, 0.95));
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.pill-feature:hover {
+  transform: translateX(-8px) scale(1.02);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 0 20px rgba(141, 65, 247, 0.15);
+}
+
+[dir="ltr"] .pill-feature:hover {
+  transform: translateX(8px) scale(1.02);
+}
+
+/* ===== PRICE CARD ===== */
+.price-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(141, 65, 247, 0.2) 100%);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15), inset 0 0 60px rgba(255, 255, 255, 0.05);
+}
+
+/* ===== SELECTION ===== */
+::selection {
+  background: rgba(141, 65, 247, 0.4);
+  color: #ffffff;
 }

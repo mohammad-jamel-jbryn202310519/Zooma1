@@ -1,28 +1,30 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Cairo } from "next/font/google";
+import { Outfit, Cairo } from "next/font/google";
 import "../globals.css";
 import ChatWidget from "@/components/ChatWidget";
+import AnimatedBackground from "@/components/AnimatedBackground";
+import MobileMenu from "@/components/MobileMenu";
 import { Link } from "@/i18n/routing";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import LanguageToggle from "@/components/LanguageToggle";
 
-const inter = Inter({ subsets: ["latin"] });
-const cairo = Cairo({ subsets: ["arabic"] });
+const outfit = Outfit({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700", "800", "900"] });
+const cairo = Cairo({ subsets: ["arabic"], weight: ["300", "400", "500", "600", "700", "800", "900"] });
 
 export const metadata: Metadata = {
-  title: "Zooma - Digital Agency in Jordan",
-  description: "Zooma builds complete, production-ready websites and digital systems for local commercial businesses in Jordan.",
+  title: "ZOOMA Marketing — Digital Agency in Jordan",
+  description: "ZOOMA Marketing builds complete, production-ready websites and digital systems for local commercial businesses in Jordan.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Zooma",
+    title: "ZOOMA",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#8d41f7",
+  themeColor: "#7c3aed",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -42,40 +44,76 @@ export default async function RootLayout({
   const tf = await getTranslations('Footer');
   
   const dir = locale === 'ar' ? 'rtl' : 'ltr';
-  const font = locale === 'ar' ? cairo.className : inter.className;
+  const font = locale === 'ar' ? cairo.className : outfit.className;
+
+  const navLinks = [
+    { href: '/', label: t('home') },
+    { href: '/package', label: t('package') },
+    { href: '/portfolio', label: t('portfolio') },
+  ];
 
   return (
-    <html lang={locale} dir={dir} className={`${font} h-full antialiased`} style={{ '--dir': dir } as React.CSSProperties}>
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+    <html lang={locale} dir={dir} className={`${font} h-full antialiased scroll-smooth`} style={{ '--dir': dir } as React.CSSProperties}>
+      <body className="min-h-full flex flex-col text-white">
         <NextIntlClientProvider messages={messages}>
-          <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-white/20">
+          <AnimatedBackground />
+          
+          {/* ===== HEADER ===== */}
+          <header className="sticky top-0 z-50 glass-strong">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between items-center h-20">
-                <div className="flex-shrink-0 flex items-center gap-4">
-                  <Link href="/" className="flex items-center">
-                    <img src="/logo.jpeg" alt="Zooma Logo" className="h-16 w-auto object-contain" />
+                <div className="flex-shrink-0 flex items-center gap-3">
+                  <Link href="/" className="flex items-center gap-3 group">
+                    <img src="/logo.jpeg" alt="Zooma Logo" className="h-12 w-12 rounded-xl object-cover shadow-lg ring-2 ring-white/20 group-hover:ring-white/40 transition-all" />
+                    <div className="hidden sm:flex flex-col">
+                      <span className="text-lg font-black tracking-tighter text-white leading-tight">ZOOMA</span>
+                      <span className="text-[10px] font-medium text-white/60 tracking-widest uppercase">Marketing</span>
+                    </div>
                   </Link>
                   <LanguageToggle currentLocale={locale} />
                 </div>
-                <nav className="hidden md:flex space-x-8 rtl:space-x-reverse items-center">
-                  <Link href="/" className="text-white/90 hover:text-white font-medium text-sm transition-colors">{t('home')}</Link>
-                  <Link href="/package" className="text-white/90 hover:text-white font-medium text-sm transition-colors">{t('package')}</Link>
-                  <Link href="/portfolio" className="text-white/90 hover:text-white font-medium text-sm transition-colors">{t('portfolio')}</Link>
-                  <Link href="/contact" className="bg-white text-brand px-6 py-2.5 rounded-full font-bold text-sm hover:bg-gray-100 transition-colors shadow-lg">{t('contact')}</Link>
+                
+                {/* Desktop Nav */}
+                <nav className="hidden md:flex items-center gap-1">
+                  {navLinks.map((link) => (
+                    <Link key={link.href} href={link.href as any} className="text-white/80 hover:text-white font-medium text-sm transition-all px-4 py-2 rounded-full hover:bg-white/10">
+                      {link.label}
+                    </Link>
+                  ))}
+                  <Link href="/contact" className="ms-2 bg-white text-[#7c3aed] px-6 py-2.5 rounded-full font-bold text-sm hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl hover:scale-105">
+                    {t('contact')}
+                  </Link>
                 </nav>
+
+                {/* Mobile Menu */}
+                <MobileMenu
+                  links={navLinks}
+                  ctaLink={{ href: '/contact', label: t('contact') }}
+                />
               </div>
             </div>
           </header>
           
-          <main className="flex-grow">
+          {/* ===== MAIN ===== */}
+          <main className="flex-grow relative z-10">
             {children}
           </main>
 
-          <footer className="bg-background border-t border-white/20 py-12">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-              <img src="/logo.jpeg" alt="Zooma Logo" className="h-20 w-auto object-contain mx-auto mb-6" />
-              <p className="text-white/80 text-sm">{tf('description')}</p>
-              <p className="text-white/50 text-xs mt-8">{tf('rights')}</p>
+          {/* ===== FOOTER ===== */}
+          <footer className="relative z-10 border-t border-white/10 py-16 mt-20">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+              <div className="flex items-center justify-center gap-3 mb-6">
+                <img src="/logo.jpeg" alt="Zooma Logo" className="h-14 w-14 rounded-xl object-cover shadow-lg ring-2 ring-white/20" />
+                <div className="flex flex-col items-start">
+                  <span className="text-xl font-black tracking-tighter text-white">ZOOMA</span>
+                  <span className="text-xs font-medium text-white/50 tracking-widest uppercase">Marketing</span>
+                </div>
+              </div>
+              <p className="text-white/60 text-sm max-w-md mx-auto leading-relaxed">{tf('description')}</p>
+              <div className="mt-8 pt-8 border-t border-white/10">
+                <p className="text-white/30 text-xs">{tf('rights')}</p>
+              </div>
             </div>
           </footer>
 

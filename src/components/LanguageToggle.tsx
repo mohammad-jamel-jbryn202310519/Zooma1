@@ -1,6 +1,8 @@
 'use client';
 
 import { usePathname, useRouter } from '@/i18n/routing';
+import { motion } from 'framer-motion';
+import { Globe } from 'lucide-react';
 
 export default function LanguageToggle({ currentLocale }: { currentLocale: string }) {
   const router = useRouter();
@@ -12,11 +14,14 @@ export default function LanguageToggle({ currentLocale }: { currentLocale: strin
   };
 
   return (
-    <button
+    <motion.button
       onClick={toggleLocale}
-      className="text-xs font-bold px-3 py-1.5 rounded-full border border-nude-dark bg-white text-brand hover:bg-brand hover:text-white transition-colors"
+      className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full glass text-white/90 hover:text-white hover:bg-white/15 transition-all"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
     >
-      {currentLocale === 'ar' ? 'English' : 'عربي'}
-    </button>
+      <Globe className="w-3.5 h-3.5" />
+      {currentLocale === 'ar' ? 'EN' : 'عربي'}
+    </motion.button>
   );
 }
