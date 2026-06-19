@@ -3,9 +3,10 @@ import { streamText, generateId } from 'ai';
 import { supabase } from '@/lib/supabase/client';
 
 export const maxDuration = 30;
+export const dynamic = 'force-dynamic';
 
 const openrouter = createOpenRouter({
-  apiKey: process.env.OPENROUTER_API_KEY,
+  apiKey: process.env.OPENROUTER_API_KEY || 'dummy_build_key',
 });
 
 export async function POST(req: Request) {
