@@ -209,14 +209,12 @@ function InteractiveGlobe() {
     window.addEventListener('mousemove', onMove);
     window.addEventListener('scroll', onScroll);
     window.addEventListener('touchmove', onTouch, { passive: true });
-    window.addEventListener('mousedown', onDown);
-    window.addEventListener('touchstart', onDown, { passive: true });
+    window.addEventListener('trigger-celebration', onDown);
     return () => {
       window.removeEventListener('mousemove', onMove);
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('touchmove', onTouch);
-      window.removeEventListener('mousedown', onDown);
-      window.removeEventListener('touchstart', onDown);
+      window.removeEventListener('trigger-celebration', onDown);
     };
   }, []);
 

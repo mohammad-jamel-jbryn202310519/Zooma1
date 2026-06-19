@@ -44,6 +44,18 @@ export default function ContactForm({ translations: t }: ContactFormProps) {
     if (!dbError) {
       setIsSuccess(true);
       (e.target as HTMLFormElement).reset();
+
+      // Redirect to WhatsApp
+      const whatsappMessage = `مرحباً، أود الاشتراك في باقاتكم.
+الاسم: ${data.name}
+رقم الهاتف: ${data.phone}
+اسم النشاط: ${data.business_name}
+نوع النشاط: ${data.business_type}
+الرسالة: ${data.message}`;
+      
+      const whatsappUrl = `https://wa.me/962780586475?text=${encodeURIComponent(whatsappMessage)}`;
+      window.location.href = whatsappUrl;
+
     } else {
       console.error(dbError);
       alert('An error occurred. Please try again.');

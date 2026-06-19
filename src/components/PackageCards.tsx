@@ -120,6 +120,7 @@ function PackageCard({ data, isOpen, onToggle }: { data: PackageData; isOpen: bo
               <div className="flex flex-col gap-2">
                 <Link
                   href={data.ctaHref as any}
+                  onClick={() => window.dispatchEvent(new Event('trigger-celebration'))}
                   className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold text-sm transition-all hover:scale-[1.02] active:scale-[0.98]"
                   style={{ background: data.accentColor, color: '#fff', boxShadow: `0 8px 24px ${data.glowColor}` }}
                 >
@@ -131,6 +132,7 @@ function PackageCard({ data, isOpen, onToggle }: { data: PackageData; isOpen: bo
                   href={data.ctaWhatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => window.dispatchEvent(new Event('trigger-celebration'))}
                   className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl font-semibold text-xs md:text-sm text-white/80 hover:bg-white/5 hover:text-white transition-all border border-transparent hover:border-white/10"
                 >
                   <MessageCircle className="w-4 h-4 text-green-400" />
