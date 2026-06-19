@@ -10,8 +10,9 @@ export default async function PackagePage({ params }: { params: Promise<{ locale
   const { locale } = await params;
   const tp = await getTranslations("Package");
   
-  const { data } = await supabase.from("package_features").select("*").order("sort_order");
-  const features = (data as any[]) || [];
+  // Read features from translation JSON
+  const featuresObj = tp.raw("features") as Record<string, string>;
+  const features = Object.entries(featuresObj).map(([key, val]) => ({ id: key, text: val }));
 
   return (
     <div className="min-h-screen bg-transparent pt-24 pb-32">
@@ -43,8 +44,7 @@ export default async function PackagePage({ params }: { params: Promise<{ locale
                 <div className="flex items-center bg-[#e6d9f9] rounded-full p-4 md:p-5 shadow-lg border border-white/50 hover:scale-[1.02] transition-transform">
                   <CheckCircle2 className="w-8 h-8 text-brand shrink-0" />
                   <div className="ms-4">
-                    <h4 className="font-extrabold text-lg md:text-xl text-gray-900 leading-tight">{locale === 'ar' ? feature.title_ar : feature.title_en}</h4>
-                    <p className="text-gray-700 text-sm md:text-base font-medium mt-0.5">{locale === 'ar' ? feature.description_ar : feature.description_en}</p>
+                    <h4 className="font-extrabold text-lg md:text-xl text-gray-900 leading-tight">{feature.text}</h4>
                   </div>
                 </div>
               </Reveal>
