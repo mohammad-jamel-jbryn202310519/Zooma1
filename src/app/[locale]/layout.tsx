@@ -53,7 +53,7 @@ export default async function RootLayout({
               <div className="flex justify-between items-center h-20">
                 <div className="flex-shrink-0 flex items-center gap-4">
                   <Link href="/" className="flex items-center">
-                    <img src="/logo.png" alt="Zooma Logo" className="h-16 w-auto object-contain" />
+                    <img src="/logo.jpeg" alt="Zooma Logo" className="h-16 w-auto object-contain" />
                   </Link>
                   <LanguageToggle currentLocale={locale} />
                 </div>
@@ -73,7 +73,7 @@ export default async function RootLayout({
 
           <footer className="bg-background border-t border-white/20 py-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-              <img src="/logo.png" alt="Zooma Logo" className="h-20 w-auto object-contain mx-auto mb-6" />
+              <img src="/logo.jpeg" alt="Zooma Logo" className="h-20 w-auto object-contain mx-auto mb-6" />
               <p className="text-white/80 text-sm">{tf('description')}</p>
               <p className="text-white/50 text-xs mt-8">{tf('rights')}</p>
             </div>
