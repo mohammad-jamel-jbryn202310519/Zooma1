@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Outfit, Cairo } from "next/font/google";
 import "../globals.css";
-import ChatWidget from "@/components/ChatWidget";
 import Globe3D from "@/components/Globe3D";
 import MobileMenu from "@/components/MobileMenu";
 import { Link } from "@/i18n/routing";
@@ -117,7 +116,6 @@ export default async function RootLayout({
             </div>
           </footer>
 
-          <ChatWidget />
 
           {/* ===== MOBILE BOTTOM NAV ===== */}
           <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden border-t border-white/20" style={{ background: 'rgba(30, 10, 60, 0.95)', backdropFilter: 'blur(20px)' }}>
