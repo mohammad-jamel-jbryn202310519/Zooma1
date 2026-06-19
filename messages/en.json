@@ -25,12 +25,13 @@
     "cta": "Subscribe Now",
     "features": {
       "f1": "Website design showcasing your business, products, services, and prices",
-      "f2": "Social media post designs upon request (10 per month)",
+      "f2": "10 social media post designs per month",
       "f3": "Adding your location to Google Maps to appear in searches",
       "f4": "Receive customer orders directly via WhatsApp or any app you choose",
       "f5": "A plastic QR stand placed in your store for customers to scan",
-      "f6": "Brand identity design and custom cards",
-      "f7": "Technical support throughout the subscription period"
+      "f6": "Full brand identity: logo, colors, and custom fonts for your store",
+      "f7": "20 printed business cards with your store info and website",
+      "f8": "Technical support throughout the subscription period"
     }
   },
   "Companies": {
@@ -43,12 +44,15 @@
     "description": "For any company — commercial, service-based, or any type. Contact us directly for subscription details.",
     "features": {
       "f1": "Full professional company website",
-      "f2": "Complete visual identity (logo, colors, fonts)",
-      "f3": "Full social media management — Facebook & Instagram",
-      "f4": "Meta advertising campaigns to boost sales",
-      "f5": "Adding your company to Google Maps",
-      "f6": "Receive customer orders via WhatsApp and website",
-      "f7": "VIP technical support throughout the subscription"
+      "f2": "15 social media posts + 10 stories per month",
+      "f3": "Adding your company to Google Maps to appear in searches",
+      "f4": "Receive customer orders via WhatsApp and website",
+      "f5": "A plastic QR stand for your company",
+      "f6": "VIP brand identity: logo, colors, fonts, and custom patterns",
+      "f7": "20 professionally printed business cards with company info",
+      "f8": "Meta advertising campaigns to boost sales (Facebook & Instagram)",
+      "f9": "Full social media management — Facebook & Instagram",
+      "f10": "VIP technical support throughout the subscription"
     }
   },
   "Contact": {

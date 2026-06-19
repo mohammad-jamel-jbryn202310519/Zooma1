@@ -51,27 +51,27 @@ function PackageCard({ data, defaultOpen = false }: { data: PackageData; default
         className="w-full flex items-center justify-between p-4 md:p-5 text-start"
         aria-expanded={isOpen}
       >
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col items-start gap-3">
           <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center flex-shrink-0"
             style={{ background: `${data.accentColor}25`, border: `1px solid ${data.accentColor}40` }}>
             {data.icon}
           </div>
-          <div>
-            <p className="text-[10px] md:text-xs font-bold uppercase tracking-widest mb-0.5" style={{ color: data.accentColor }}>{data.badge}</p>
-            <h3 className="text-base md:text-xl font-black text-white leading-tight">{data.title}</h3>
+          <div className="flex flex-col items-start">
+            <p className="text-[9px] md:text-xs font-bold uppercase tracking-widest mb-1" style={{ color: data.accentColor }}>{data.badge}</p>
+            <h3 className="text-sm md:text-xl font-black text-white leading-tight mb-2">{data.title}</h3>
+            <div className="flex flex-col items-start text-start">
+              <p className="text-[9px] md:text-xs text-white/40 line-through mb-0.5">{data.originalPrice}</p>
+              <p className="text-base md:text-2xl font-black text-white">{data.discountPrice}</p>
+            </div>
           </div>
         </div>
-        <div className="flex items-center gap-3">
-          <div className="text-end">
-            <p className="text-[10px] text-white/40 line-through">{data.originalPrice}</p>
-            <p className="text-lg md:text-2xl font-black text-white">{data.discountPrice}</p>
-          </div>
+        <div className="flex items-start h-full pt-1">
           <motion.div
             animate={{ rotate: isOpen ? 180 : 0 }}
             transition={{ duration: 0.3 }}
-            className="text-white/60"
+            className="text-white/60 bg-white/5 rounded-full p-1"
           >
-            <ChevronDown className="w-5 h-5" />
+            <ChevronDown className="w-4 h-4 md:w-5 md:h-5" />
           </motion.div>
         </div>
       </button>
@@ -148,9 +148,17 @@ function PackageCard({ data, defaultOpen = false }: { data: PackageData; default
 
 export default function PackageCards({ storesData, companiesData }: PackageCardsProps) {
   return (
-    <div className="flex flex-col gap-4">
-      <PackageCard data={storesData} defaultOpen={true} />
-      <PackageCard data={companiesData} defaultOpen={false} />
+    <div className="flex flex-col items-center">
+      <div className="grid grid-cols-2 gap-2 md:gap-4 w-full">
+        <PackageCard data={storesData} defaultOpen={false} />
+        <PackageCard data={companiesData} defaultOpen={false} />
+      </div>
+      <p className="mt-6 text-white/50 text-xs md:text-sm font-semibold tracking-wide flex items-center gap-2">
+        <MessageCircle className="w-4 h-4 text-green-400" />
+        {storesData.badge.includes('متاجر') || storesData.badge.includes('Stores') 
+          ? 'اطلب الباقة الآن عبر الواتساب' 
+          : 'Request the package via WhatsApp'}
+      </p>
     </div>
   );
 }

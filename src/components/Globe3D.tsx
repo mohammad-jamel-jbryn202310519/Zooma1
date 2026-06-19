@@ -1,45 +1,180 @@
 'use client';
 
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { useRef, useMemo, useEffect, useState } from 'react';
 import * as THREE from 'three';
 
-/* ===== REACTIVE PERSON ===== */
-function Person({
+/* ===== FIREWORKS PARTICLE SYSTEM ===== */
+function Firework({ position, onComplete }: { position: [number, number, number], onComplete: () => void }) {
+  const pointsRef = useRef<THREE.Points>(null);
+  const age = useRef(0);
+  
+  const { geometry, velocities } = useMemo(() => {
+    const geo = new THREE.BufferGeometry();
+    const count = 40;
+    const pos = new Float32Array(count * 3);
+    const vel = [];
+    for (let i = 0; i < count; i++) {
+      pos[i * 3] = 0;
+      pos[i * 3 + 1] = 0;
+      pos[i * 3 + 2] = 0;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos((Math.random() * 2) - 1);
+      const speed = 0.05 + Math.random() * 0.05;
+      vel.push(
+        Math.sin(phi) * Math.cos(theta) * speed,
+        Math.sin(phi) * Math.sin(theta) * speed,
+        Math.cos(phi) * speed
+      );
+    }
+    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    return { geometry: geo, velocities: vel };
+  }, []);
+
+  useFrame(() => {
+    if (!pointsRef.current) return;
+    const positions = pointsRef.current.geometry.attributes.position.array as Float32Array;
+    age.current += 0.016;
+    
+    for (let i = 0; i < 40; i++) {
+      positions[i * 3] += velocities[i * 3];
+      positions[i * 3 + 1] += velocities[i * 3 + 1];
+      positions[i * 3 + 2] += velocities[i * 3 + 2];
+      velocities[i * 3 + 1] -= 0.002; // Gravity
+    }
+    pointsRef.current.geometry.attributes.position.needsUpdate = true;
+    
+    const mat = pointsRef.current.material as THREE.PointsMaterial;
+    mat.opacity = Math.max(0, 1 - age.current * 1.5);
+    
+    if (age.current > 1) {
+      onComplete();
+    }
+  });
+
+  return (
+    <points ref={pointsRef} position={position} geometry={geometry}>
+      <pointsMaterial color="#fcd34d" size={0.06} transparent opacity={1} sizeAttenuation />
+    </points>
+  );
+}
+
+/* ===== TALL REACTIVE PERSON ===== */
+function TallPerson({
   position,
   mouse,
-  isClicking,
-  index,
+  armLeftAngle,
+  armRightAngle
 }: {
   position: [number, number, number];
   mouse: { x: number; y: number };
-  isClicking: boolean;
-  index: number;
+  armLeftAngle: number;
+  armRightAngle: number;
 }) {
   const groupRef = useRef<THREE.Group>(null);
+
+  useFrame(() => {
+    if (!groupRef.current) return;
+    // Eyes look at cursor smoothly
+    const targetRotY = mouse.x * 0.8;
+    const targetRotX = -mouse.y * 0.5;
+    groupRef.current.rotation.y += (targetRotY - groupRef.current.rotation.y) * 0.1;
+    groupRef.current.rotation.x += (targetRotX - groupRef.current.rotation.x) * 0.1;
+  });
+
+  return (
+    <group ref={groupRef} position={position}>
+      {/* Head */}
+      <mesh position={[0, 0.9, 0]}>
+        <sphereGeometry args={[0.2, 32, 32]} />
+        <meshBasicMaterial color="#e2d4f5" transparent opacity={0.95} />
+      </mesh>
+      
+      {/* Big Eyes */}
+      <mesh position={[-0.08, 0.95, 0.16]}>
+        <sphereGeometry args={[0.06, 16, 16]} />
+        <meshBasicMaterial color="#ffffff" />
+      </mesh>
+      <mesh position={[0.08, 0.95, 0.16]}>
+        <sphereGeometry args={[0.06, 16, 16]} />
+        <meshBasicMaterial color="#ffffff" />
+      </mesh>
+      
+      {/* Pupils tracking cursor */}
+      <mesh position={[-0.08 + mouse.x * 0.03, 0.95 + mouse.y * 0.02, 0.21]}>
+        <sphereGeometry args={[0.03, 16, 16]} />
+        <meshBasicMaterial color="#4c1d95" />
+      </mesh>
+      <mesh position={[0.08 + mouse.x * 0.03, 0.95 + mouse.y * 0.02, 0.21]}>
+        <sphereGeometry args={[0.03, 16, 16]} />
+        <meshBasicMaterial color="#4c1d95" />
+      </mesh>
+
+      {/* Tall Body */}
+      <mesh position={[0, 0.35, 0]}>
+        <capsuleGeometry args={[0.12, 0.6, 16, 16]} />
+        <meshBasicMaterial color="#a78bfa" transparent opacity={0.9} />
+      </mesh>
+
+      {/* Left arm */}
+      <group position={[-0.18, 0.6, 0]} rotation={[0, 0, armLeftAngle]}>
+        <mesh position={[0, -0.2, 0]}>
+          <capsuleGeometry args={[0.04, 0.3, 8, 8]} />
+          <meshBasicMaterial color="#c4b5fd" transparent opacity={0.85} />
+        </mesh>
+        <mesh position={[0, -0.4, 0]}>
+          <sphereGeometry args={[0.05, 16, 16]} />
+          <meshBasicMaterial color="#e2d4f5" transparent opacity={0.9} />
+        </mesh>
+      </group>
+
+      {/* Right arm */}
+      <group position={[0.18, 0.6, 0]} rotation={[0, 0, armRightAngle]}>
+        <mesh position={[0, -0.2, 0]}>
+          <capsuleGeometry args={[0.04, 0.3, 8, 8]} />
+          <meshBasicMaterial color="#c4b5fd" transparent opacity={0.85} />
+        </mesh>
+        <mesh position={[0, -0.4, 0]}>
+          <sphereGeometry args={[0.05, 16, 16]} />
+          <meshBasicMaterial color="#e2d4f5" transparent opacity={0.9} />
+        </mesh>
+      </group>
+
+      {/* Long Legs */}
+      <mesh position={[-0.07, -0.2, 0]}>
+        <capsuleGeometry args={[0.045, 0.4, 8, 8]} />
+        <meshBasicMaterial color="#7c3aed" transparent opacity={0.8} />
+      </mesh>
+      <mesh position={[0.07, -0.2, 0]}>
+        <capsuleGeometry args={[0.045, 0.4, 8, 8]} />
+        <meshBasicMaterial color="#7c3aed" transparent opacity={0.8} />
+      </mesh>
+    </group>
+  );
+}
+
+/* ===== JUMPING COUPLE ===== */
+function JumpingCouple({ mouse, isClicking, addFirework }: { mouse: { x: number; y: number }; isClicking: boolean; addFirework: (x: number, y: number) => void }) {
+  const groupRef = useRef<THREE.Group>(null);
   const jumpOffset = useRef(0);
-  const jumpPhase = useRef(Math.random() * Math.PI * 2);
   const jumpSpeed = useRef(0);
   const isJumping = useRef(false);
 
   useFrame((state) => {
     if (!groupRef.current) return;
-    const time = state.clock.elapsedTime;
-
-    // Smooth look toward mouse
-    const targetRotY = mouse.x * 0.6;
-    const targetRotX = -mouse.y * 0.4;
-    groupRef.current.rotation.y += (targetRotY - groupRef.current.rotation.y) * 0.08;
-    groupRef.current.rotation.x += (targetRotX - groupRef.current.rotation.x) * 0.08;
-
-    // Jumping when clicked
+    
+    // Jump physics
     if (isClicking && !isJumping.current) {
       isJumping.current = true;
-      jumpSpeed.current = 0.18 + index * 0.04;
+      jumpSpeed.current = 0.25; // Good jump height
+      
+      // Firework above them
+      addFirework((Math.random() - 0.5) * 4, 1 + Math.random() * 2);
     }
+    
     if (isJumping.current) {
       jumpOffset.current += jumpSpeed.current;
-      jumpSpeed.current -= 0.01;
+      jumpSpeed.current -= 0.015; // Gravity
       if (jumpOffset.current <= 0) {
         jumpOffset.current = 0;
         isJumping.current = false;
@@ -47,77 +182,30 @@ function Person({
       }
     }
 
-    // Idle bobbing
-    const bob = Math.sin(time * 1.5 + jumpPhase.current) * 0.05;
-    groupRef.current.position.y = position[1] + bob + Math.max(0, jumpOffset.current);
+    // Small idle bobbing to look alive
+    const time = state.clock.elapsedTime;
+    const bob = Math.sin(time * 3) * 0.05;
+    
+    // Smoothly apply position
+    groupRef.current.position.y = -2.5 + bob + Math.max(0, jumpOffset.current);
   });
 
-  // Arm angles driven by mouse
-  const armLAngle = -0.5 - mouse.y * 0.3;
-  const armRAngle = -0.5 - mouse.y * 0.3;
-
   return (
-    <group ref={groupRef} position={[position[0], position[1], position[2]]}>
-      {/* Head */}
-      <mesh position={[0, 0.38, 0]}>
-        <sphereGeometry args={[0.13, 16, 16]} />
-        <meshBasicMaterial color="#e2d4f5" transparent opacity={0.9} />
-      </mesh>
-      {/* Eye whites */}
-      <mesh position={[-0.045, 0.41, 0.1]}>
-        <sphereGeometry args={[0.032, 10, 10]} />
-        <meshBasicMaterial color="#ffffff" />
-      </mesh>
-      <mesh position={[0.045, 0.41, 0.1]}>
-        <sphereGeometry args={[0.032, 10, 10]} />
-        <meshBasicMaterial color="#ffffff" />
-      </mesh>
-      {/* Pupils that track cursor */}
-      <mesh position={[-0.045 + mouse.x * 0.015, 0.41 + mouse.y * 0.01, 0.118]}>
-        <sphereGeometry args={[0.016, 8, 8]} />
-        <meshBasicMaterial color="#4c1d95" />
-      </mesh>
-      <mesh position={[0.045 + mouse.x * 0.015, 0.41 + mouse.y * 0.01, 0.118]}>
-        <sphereGeometry args={[0.016, 8, 8]} />
-        <meshBasicMaterial color="#4c1d95" />
-      </mesh>
-      {/* Body */}
-      <mesh position={[0, 0.1, 0]}>
-        <capsuleGeometry args={[0.07, 0.22, 8, 8]} />
-        <meshBasicMaterial color="#a78bfa" transparent opacity={0.85} />
-      </mesh>
-      {/* Left arm — points toward cursor */}
-      <group position={[-0.12, 0.22, 0]} rotation={[0, 0, 0.8 + mouse.y * 0.4]}>
-        <mesh position={[0, -0.1, 0]}>
-          <capsuleGeometry args={[0.025, 0.14, 4, 6]} />
-          <meshBasicMaterial color="#c4b5fd" transparent opacity={0.8} />
-        </mesh>
-        {/* Hand */}
-        <mesh position={[0, -0.2, 0]}>
-          <sphereGeometry args={[0.035, 8, 8]} />
-          <meshBasicMaterial color="#e2d4f5" transparent opacity={0.85} />
-        </mesh>
-      </group>
-      {/* Right arm */}
-      <group position={[0.12, 0.22, 0]} rotation={[0, 0, -0.8 - mouse.y * 0.4]}>
-        <mesh position={[0, -0.1, 0]}>
-          <capsuleGeometry args={[0.025, 0.14, 4, 6]} />
-          <meshBasicMaterial color="#c4b5fd" transparent opacity={0.8} />
-        </mesh>
-        <mesh position={[0, -0.2, 0]}>
-          <sphereGeometry args={[0.035, 8, 8]} />
-          <meshBasicMaterial color="#e2d4f5" transparent opacity={0.85} />
-        </mesh>
-      </group>
-      {/* Legs */}
-      <mesh position={[-0.05, -0.2, 0]}>
-        <capsuleGeometry args={[0.025, 0.14, 4, 6]} />
-        <meshBasicMaterial color="#7c3aed" transparent opacity={0.7} />
-      </mesh>
-      <mesh position={[0.05, -0.2, 0]}>
-        <capsuleGeometry args={[0.025, 0.14, 4, 6]} />
-        <meshBasicMaterial color="#7c3aed" transparent opacity={0.7} />
-      </mesh>
+    <group ref={groupRef} position={[0, -2.5, 2]}>
+      {/* Person 1 (Left) */}
+      <TallPerson 
+        position={[-0.45, 0, 0]} 
+        mouse={mouse}
+        armLeftAngle={0.3} // Resting
+        armRightAngle={-1.2} // Reaching toward middle
+      />
+      {/* Person 2 (Right) */}
+      <TallPerson 
+        position={[0.45, 0, 0]} 
+        mouse={mouse}
+        armLeftAngle={1.2} // Reaching toward middle
+        armRightAngle={-0.3} // Resting
+      />
     </group>
   );
 }
@@ -128,6 +216,7 @@ function InteractiveGlobe() {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const [isClicking, setIsClicking] = useState(false);
   const targetRotation = useRef({ x: 0 });
+  const [fireworks, setFireworks] = useState<{id: number, x: number, y: number}[]>([]);
 
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
@@ -177,13 +266,13 @@ function InteractiveGlobe() {
     groupRef.current.rotation.x = Math.sin(t * 0.05) * 0.1 + mouse.y * 0.15 + targetRotation.current.x;
   });
 
-  // 4 people at corners around the globe
-  const people: [number, number, number][] = [
-    [-2.0, -0.5, 0.5],
-    [2.0, -0.5, 0.5],
-    [-1.6, 0.8, 0.3],
-    [1.6, 0.8, 0.3],
-  ];
+  const removeFirework = (id: number) => {
+    setFireworks(prev => prev.filter(f => f.id !== id));
+  };
+
+  const addFirework = (x: number, y: number) => {
+    setFireworks(prev => [...prev, { id: Date.now() + Math.random(), x, y }]);
+  };
 
   return (
     <>
@@ -204,8 +293,10 @@ function InteractiveGlobe() {
         </mesh>
       </group>
 
-      {people.map((pos, i) => (
-        <Person key={i} position={pos} mouse={mouse} isClicking={isClicking} index={i} />
+      <JumpingCouple mouse={mouse} isClicking={isClicking} addFirework={addFirework} />
+
+      {fireworks.map(fw => (
+        <Firework key={fw.id} position={[fw.x, fw.y, 1.5]} onComplete={() => removeFirework(fw.id)} />
       ))}
     </>
   );
