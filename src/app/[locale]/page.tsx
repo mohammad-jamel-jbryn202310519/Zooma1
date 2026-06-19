@@ -105,21 +105,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 </div>
               </Reveal>
             </div>
-
-            {/* Game Changer Note */}
-            <Reveal delay={0.4}>
-              <div className="mt-12 flex justify-center relative">
-                <div className="relative group w-full max-w-3xl">
-                  <div className="absolute inset-0 bg-gradient-to-r from-brand via-[#fbbf24] to-[#22c55e] rounded-[3rem] blur-xl opacity-40 group-hover:opacity-70 transition-opacity duration-700 animate-pulse" />
-                  <div className="relative bg-white/10 backdrop-blur-2xl border border-white/20 p-8 md:p-10 rounded-[3rem] text-center shadow-2xl overflow-hidden">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl -mr-16 -mt-16 pointer-events-none" />
-                    <p className="text-base md:text-xl text-white font-black leading-relaxed tracking-wide">
-                      {ta("game_changer")}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Reveal>
           </div>
         </div>
       </section>
