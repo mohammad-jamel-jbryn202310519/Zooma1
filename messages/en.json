@@ -6,8 +6,9 @@
     "contact": "Contact Us"
   },
   "Hero": {
-    "title": "Build Your Digital Presence with Zooma",
-    "subtitle": "We build complete websites and systems for commercial stores in Jordan, helping you reach customers and increase sales.",
+    "title": "ZOOMA",
+    "subtitle_marketing": "Marketing",
+    "subtitle": "The smart one seizes the opportunity! At ZOOMA, we've gathered web developers, social media and brand identity designers, and Google Maps specialists... all in one place! Instead of dealing with multiple agencies, we combined everything you need to upgrade your store. Jordan is embracing this digital evolution, be among the first!",
     "cta": "View Package",
     "secondaryCta": "Contact Us"
   },
@@ -17,7 +18,7 @@
     "price_per_day": "30 JOD/month",
     "discount_price": "10.5 JOD",
     "discount_monthly": "(Equivalent to 35 piasters daily)",
-    "tagline": "Save your spare change every day (35 piasters) and add this to the package",
+    "tagline": "Save your spare change every day (35 piasters)",
     "validity_note": "Note: This offer is for a very limited time",
     "cta": "Order the Service Now from ZOOMA",
     "features": {
