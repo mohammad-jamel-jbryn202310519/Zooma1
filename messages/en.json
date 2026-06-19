@@ -77,5 +77,16 @@
   "Footer": {
     "description": "A digital company in Jordan that merged all developers and designers in one place to serve stores and businesses.",
     "rights": "All rights reserved. Zooma Digital Services."
+  },
+  "About": {
+    "title": "About Us",
+    "subtitle": "What we offer and why choose us?",
+    "p1": "At <span class='text-brand font-black'>Zooma Marketing</span>, we believe that digital success starts with unity and creativity. We are an integrated agency bringing together top-tier developers, web designers, and social media experts to provide comprehensive digital solutions under one roof.",
+    "h_offer": "What We Offer",
+    "f1": "Professional management for Meta campaigns and Google Maps to ensure you rank at the top and attract customers.",
+    "f2": "Designing and building your digital identity, including product menus and stores, managed with utmost professionalism.",
+    "f3": "Complete technological solutions for stores and companies at highly competitive and affordable prices.",
+    "h_why": "Benefits & Value Added",
+    "p2": "We help you keep pace with the modern era and technological advancements confidently. Our goal is not just to provide a service, but to create a <strong>stunning presence and unforgettable experience</strong> for any customer interacting with your brand. We are your partner in boosting sales and showcasing your genuine dedication to growing your business to stay ahead of the curve."
   }
 }
