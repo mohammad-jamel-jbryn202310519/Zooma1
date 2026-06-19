@@ -69,9 +69,9 @@ function TallPerson({
 
   useFrame(() => {
     if (!groupRef.current) return;
-    // Eyes look at cursor smoothly
-    const targetRotY = mouse.x * 0.8;
-    const targetRotX = -mouse.y * 0.5;
+    // Eyes look at cursor smoothly, but not too far
+    const targetRotY = mouse.x * 0.4;
+    const targetRotX = -mouse.y * 0.25;
     groupRef.current.rotation.y += (targetRotY - groupRef.current.rotation.y) * 0.1;
     groupRef.current.rotation.x += (targetRotX - groupRef.current.rotation.x) * 0.1;
   });
@@ -180,7 +180,7 @@ function JumpingPerson({
   });
 
   return (
-    <group ref={groupRef} scale={[1.2, 1.2, 1.2]}>
+    <group ref={groupRef}>
       <TallPerson mouse={mouse} />
     </group>
   );
@@ -252,8 +252,9 @@ function InteractiveGlobe() {
 
   // Adjust X position based on screen width so they are always visible
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  const personXOffset = isMobile ? 1.0 : 1.6;
-  const personYOffset = isMobile ? -1.2 : -1.0;
+  const personXOffset = isMobile ? 0.9 : 1.6;
+  const personYOffset = isMobile ? -1.4 : -1.0;
+  const personScale = isMobile ? 0.8 : 1.1;
 
   return (
     <>
@@ -276,22 +277,26 @@ function InteractiveGlobe() {
       </group>
 
       {/* Left Person */}
-      <JumpingPerson 
-        basePosition={[-personXOffset, personYOffset, 1.0]} 
-        mouse={mouse} 
-        isClicking={isClicking} 
-        addFirework={addFirework} 
-        facingAngle={0.3}
-      />
+      <group scale={[personScale, personScale, personScale]}>
+        <JumpingPerson 
+          basePosition={[-personXOffset / personScale, personYOffset / personScale, 1.0 / personScale]} 
+          mouse={mouse} 
+          isClicking={isClicking} 
+          addFirework={addFirework} 
+          facingAngle={0.3}
+        />
+      </group>
 
       {/* Right Person */}
-      <JumpingPerson 
-        basePosition={[personXOffset, personYOffset, 1.0]} 
-        mouse={mouse} 
-        isClicking={isClicking} 
-        addFirework={addFirework} 
-        facingAngle={-0.3}
-      />
+      <group scale={[personScale, personScale, personScale]}>
+        <JumpingPerson 
+          basePosition={[personXOffset / personScale, personYOffset / personScale, 1.0 / personScale]} 
+          mouse={mouse} 
+          isClicking={isClicking} 
+          addFirework={addFirework} 
+          facingAngle={-0.3}
+        />
+      </group>
 
       {/* Render Fireworks */}
       {fireworks.map(fw => (

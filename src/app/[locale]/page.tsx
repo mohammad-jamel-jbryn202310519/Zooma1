@@ -40,6 +40,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
     features: storesFeatures,
     ctaLabel: tp("cta"),
     ctaHref: '/contact',
+    ctaWhatsapp: 'https://wa.me/962000000000',
+    ctaWhatsappLabel: locale === 'ar' ? 'التفاصيل عبر الواتساب' : 'Details via WhatsApp',
     accentColor: '#a78bfa',
     glowColor: 'rgba(167,139,250,0.15)',
   };
@@ -56,7 +58,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
     validityNote: tc("validity_note"),
     features: companiesFeatures,
     ctaLabel: tc("cta"),
+    ctaHref: '/contact',
     ctaWhatsapp: 'https://wa.me/962000000000',
+    ctaWhatsappLabel: locale === 'ar' ? 'التفاصيل عبر الواتساب' : 'Details via WhatsApp',
     accentColor: '#fbbf24',
     glowColor: 'rgba(251,191,36,0.15)',
   };

@@ -15,7 +15,7 @@ export default async function PackagePage({ params }: { params: Promise<{ locale
 
   const storesData = {
     type: 'stores' as const,
-    icon: <Store className="w-5 h-5 md:w-6 md:h-6" style={{ color: '#a78bfa' }} />,
+    icon: <Store className="w-6 h-6 md:w-8 md:h-8" style={{ color: '#a78bfa' }} />,
     badge: locale === 'ar' ? 'للمتاجر والمحلات' : 'For Stores & Shops',
     badgeColor: '#a78bfa',
     title: tp("title"),
@@ -26,13 +26,15 @@ export default async function PackagePage({ params }: { params: Promise<{ locale
     features: storesFeatures,
     ctaLabel: tp("cta"),
     ctaHref: '/contact',
+    ctaWhatsapp: 'https://wa.me/962000000000',
+    ctaWhatsappLabel: locale === 'ar' ? 'التفاصيل عبر الواتساب' : 'Details via WhatsApp',
     accentColor: '#a78bfa',
     glowColor: 'rgba(167,139,250,0.15)',
   };
 
   const companiesData = {
     type: 'companies' as const,
-    icon: <Building2 className="w-5 h-5 md:w-6 md:h-6" style={{ color: '#fbbf24' }} />,
+    icon: <Building2 className="w-6 h-6 md:w-8 md:h-8" style={{ color: '#fbbf24' }} />,
     badge: locale === 'ar' ? 'للشركات والمؤسسات' : 'For Companies & Businesses',
     badgeColor: '#fbbf24',
     title: tc("title"),
@@ -42,7 +44,9 @@ export default async function PackagePage({ params }: { params: Promise<{ locale
     validityNote: tc("validity_note"),
     features: companiesFeatures,
     ctaLabel: tc("cta"),
+    ctaHref: '/contact',
     ctaWhatsapp: 'https://wa.me/962000000000',
+    ctaWhatsappLabel: locale === 'ar' ? 'التفاصيل عبر الواتساب' : 'Details via WhatsApp',
     accentColor: '#fbbf24',
     glowColor: 'rgba(251,191,36,0.15)',
   };

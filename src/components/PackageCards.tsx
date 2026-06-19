@@ -17,8 +17,9 @@ interface PackageData {
   validityNote: string;
   features: string[];
   ctaLabel: string;
-  ctaHref?: string;
-  ctaWhatsapp?: string;
+  ctaHref: string;
+  ctaWhatsapp: string;
+  ctaWhatsappLabel: string;
   accentColor: string;
   glowColor: string;
 }
@@ -116,18 +117,7 @@ function PackageCard({ data, isOpen, onToggle }: { data: PackageData; isOpen: bo
               </div>
 
               {/* CTA */}
-              {data.ctaWhatsapp ? (
-                <a
-                  href={data.ctaWhatsapp}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold text-sm text-white transition-all hover:scale-[1.02] active:scale-[0.98]"
-                  style={{ background: '#22c55e', boxShadow: '0 8px 24px rgba(34,197,94,0.3)' }}
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  {data.ctaLabel}
-                </a>
-              ) : (
+              <div className="flex flex-col gap-2">
                 <Link
                   href={data.ctaHref as any}
                   className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold text-sm transition-all hover:scale-[1.02] active:scale-[0.98]"
@@ -136,7 +126,17 @@ function PackageCard({ data, isOpen, onToggle }: { data: PackageData; isOpen: bo
                   {data.ctaLabel}
                   <ArrowRight className="w-4 h-4" />
                 </Link>
-              )}
+
+                <a
+                  href={data.ctaWhatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl font-semibold text-xs md:text-sm text-white/80 hover:bg-white/5 hover:text-white transition-all border border-transparent hover:border-white/10"
+                >
+                  <MessageCircle className="w-4 h-4 text-green-400" />
+                  {data.ctaWhatsappLabel}
+                </a>
+              </div>
             </div>
           </motion.div>
         )}
