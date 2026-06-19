@@ -1,70 +1,13 @@
-import { supabase } from "@/lib/supabase/client";
 import { Link } from "@/i18n/routing";
-import { Sparkles, ArrowRight, Store, Building2, CheckCircle2 } from "lucide-react";
+import { Sparkles, ArrowRight, CheckCircle2 } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import Reveal from "@/components/Reveal";
-import PackageCards from "@/components/PackageCards";
 
 export const revalidate = 60;
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
-  const t = await getTranslations("Hero");
-  const tp = await getTranslations("Package");
-  const tc = await getTranslations("Companies");
   const ta = await getTranslations("About");
-
-  const [
-    { data: portfolioItemsData },
-    { data: testimonialsData },
-  ] = await Promise.all([
-    supabase.from("portfolio_items").select("*").order("sort_order").limit(3),
-    supabase.from("testimonials").select("*").order("created_at", { ascending: false }).limit(3),
-  ]);
-
-  const portfolioItems = (portfolioItemsData as any[]) || [];
-
-  // Build features arrays
-  const storesFeatures = Object.values(tp.raw("features") as Record<string, string>);
-  const companiesFeatures = Object.values(tc.raw("features") as Record<string, string>);
-
-  const storesData = {
-    type: 'stores' as const,
-    icon: <Store className="w-5 h-5 md:w-6 md:h-6" style={{ color: '#a78bfa' }} />,
-    badge: locale === 'ar' ? 'للمتاجر والمحلات' : 'For Stores & Shops',
-    badgeColor: '#a78bfa',
-    title: tp("title"),
-    originalPrice: tp("price_per_day"),
-    discountPrice: tp("discount_price"),
-    discountNote: tp("discount_monthly"),
-    validityNote: tp("validity_note"),
-    features: storesFeatures,
-    ctaLabel: tp("cta"),
-    ctaHref: '/contact',
-    ctaWhatsapp: 'https://wa.me/962000000000',
-    ctaWhatsappLabel: locale === 'ar' ? 'التفاصيل عبر الواتساب' : 'Details via WhatsApp',
-    accentColor: '#a78bfa',
-    glowColor: 'rgba(167,139,250,0.15)',
-  };
-
-  const companiesData = {
-    type: 'companies' as const,
-    icon: <Building2 className="w-5 h-5 md:w-6 md:h-6" style={{ color: '#fbbf24' }} />,
-    badge: locale === 'ar' ? 'للشركات والمؤسسات' : 'For Companies & Businesses',
-    badgeColor: '#fbbf24',
-    title: tc("title"),
-    originalPrice: tc("original_price"),
-    discountPrice: tc("discount_price"),
-    discountNote: tc("discount_monthly"),
-    validityNote: tc("validity_note"),
-    features: companiesFeatures,
-    ctaLabel: tc("cta"),
-    ctaHref: '/contact',
-    ctaWhatsapp: 'https://wa.me/962000000000',
-    ctaWhatsappLabel: locale === 'ar' ? 'التفاصيل عبر الواتساب' : 'Details via WhatsApp',
-    accentColor: '#fbbf24',
-    glowColor: 'rgba(251,191,36,0.15)',
-  };
 
   return (
     <div className="flex flex-col overflow-hidden">
@@ -95,25 +38,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               {t("cta")}
               <ArrowRight className="w-4 h-4" />
             </Link>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ===== PACKAGES SECTION ===== */}
-      <section className="py-8 md:py-16 relative">
-        <div className="max-w-lg mx-auto px-4 sm:px-6 lg:px-8">
-          <Reveal>
-            <div className="text-center mb-5 md:mb-8">
-              <h2 className="text-xl md:text-3xl font-bold mb-1 text-white tracking-tight">
-                {locale === 'ar' ? 'باقاتنا' : 'Our Packages'}
-              </h2>
-              <p className="text-white/55 text-[11px] md:text-sm">
-                {locale === 'ar' ? 'اختر الباقة المناسبة لك' : 'Choose the right package for you'}
-              </p>
-            </div>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <PackageCards storesData={storesData} companiesData={companiesData} />
           </Reveal>
         </div>
       </section>
@@ -181,6 +105,21 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 </div>
               </Reveal>
             </div>
+
+            {/* Game Changer Note */}
+            <Reveal delay={0.4}>
+              <div className="mt-12 flex justify-center relative">
+                <div className="relative group w-full max-w-3xl">
+                  <div className="absolute inset-0 bg-gradient-to-r from-brand via-[#fbbf24] to-[#22c55e] rounded-[3rem] blur-xl opacity-40 group-hover:opacity-70 transition-opacity duration-700 animate-pulse" />
+                  <div className="relative bg-white/10 backdrop-blur-2xl border border-white/20 p-8 md:p-10 rounded-[3rem] text-center shadow-2xl overflow-hidden">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl -mr-16 -mt-16 pointer-events-none" />
+                    <p className="text-base md:text-xl text-white font-black leading-relaxed tracking-wide">
+                      {ta("game_changer")}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
