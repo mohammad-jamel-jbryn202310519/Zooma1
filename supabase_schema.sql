@@ -1,98 +1,105 @@
--- Supabase SQL Schema for Zooma
+-- Zooma Database Schema (Bilingual)
+-- Execute this file in the Supabase SQL Editor
 
--- Enable UUID extension
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
--- 1. Services Table
-CREATE TABLE public.services (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    title TEXT NOT NULL,
-    description TEXT NOT NULL,
-    icon TEXT,
-    sort_order INTEGER DEFAULT 0,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+-- 1. package_features
+create table if not exists public.package_features (
+    id uuid default gen_random_uuid() primary key,
+    title_ar text not null,
+    title_en text not null,
+    description_ar text not null,
+    description_en text not null,
+    icon text,
+    sort_order integer default 0,
+    created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
--- 2. Packages Table
-CREATE TABLE public.packages (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name TEXT NOT NULL,
-    price NUMERIC NOT NULL,
-    currency TEXT DEFAULT 'JOD',
-    features TEXT[] NOT NULL,
-    is_featured BOOLEAN DEFAULT false,
-    sort_order INTEGER DEFAULT 0,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+-- 2. portfolio_items
+create table if not exists public.portfolio_items (
+    id uuid default gen_random_uuid() primary key,
+    client_name text not null,
+    business_type text not null,
+    image_url text,
+    link_url text,
+    description_ar text,
+    description_en text,
+    sort_order integer default 0,
+    created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
--- 3. Portfolio Items Table
-CREATE TABLE public.portfolio_items (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    client_name TEXT NOT NULL,
-    business_type TEXT NOT NULL,
-    image_url TEXT,
-    link_url TEXT,
-    description TEXT,
-    sort_order INTEGER DEFAULT 0,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+-- 3. testimonials
+create table if not exists public.testimonials (
+    id uuid default gen_random_uuid() primary key,
+    client_name text not null,
+    business_name text,
+    quote_ar text not null,
+    quote_en text not null,
+    rating integer check (rating >= 1 and rating <= 5) default 5,
+    created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
--- 4. Testimonials Table
-CREATE TABLE public.testimonials (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    client_name TEXT NOT NULL,
-    business_name TEXT,
-    quote TEXT NOT NULL,
-    rating INTEGER DEFAULT 5 CHECK (rating >= 1 AND rating <= 5),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+-- 4. leads
+create table if not exists public.leads (
+    id uuid default gen_random_uuid() primary key,
+    name text not null,
+    phone text not null,
+    email text,
+    business_name text,
+    business_type text,
+    message text,
+    source text,
+    created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
--- 5. Leads Table (Contact Form Submissions)
-CREATE TABLE public.leads (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name TEXT NOT NULL,
-    phone TEXT NOT NULL,
-    email TEXT,
-    business_name TEXT,
-    business_type TEXT,
-    message TEXT,
-    source TEXT DEFAULT 'website',
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+-- 5. chat_messages
+create table if not exists public.chat_messages (
+    id uuid default gen_random_uuid() primary key,
+    session_id text not null,
+    role text not null check (role in ('system', 'user', 'assistant')),
+    content text not null,
+    created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
--- 6. Chat Messages Table
-CREATE TABLE public.chat_messages (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    session_id TEXT NOT NULL,
-    role TEXT NOT NULL CHECK (role IN ('user', 'assistant', 'system')),
-    content TEXT NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
--- ==========================================
--- ROW LEVEL SECURITY (RLS) POLICIES
--- ==========================================
+-- Row Level Security (RLS) Policies
 
 -- Enable RLS on all tables
-ALTER TABLE public.services ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.packages ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.portfolio_items ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.testimonials ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.leads ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.chat_messages ENABLE ROW LEVEL SECURITY;
+alter table public.package_features enable row level security;
+alter table public.portfolio_items enable row level security;
+alter table public.testimonials enable row level security;
+alter table public.leads enable row level security;
+alter table public.chat_messages enable row level security;
 
--- Content Tables: Public Read Access (Anon and Authenticated)
-CREATE POLICY "Allow public read-only access for services" ON public.services FOR SELECT USING (true);
-CREATE POLICY "Allow public read-only access for packages" ON public.packages FOR SELECT USING (true);
-CREATE POLICY "Allow public read-only access for portfolio_items" ON public.portfolio_items FOR SELECT USING (true);
-CREATE POLICY "Allow public read-only access for testimonials" ON public.testimonials FOR SELECT USING (true);
+-- package_features: Public Read-Only
+create policy "Allow public read access to package_features"
+on public.package_features for select
+to public
+using (true);
 
--- Leads Table: Public Insert Only (No public read/update/delete)
-CREATE POLICY "Allow public insert for leads" ON public.leads FOR INSERT WITH CHECK (true);
+-- portfolio_items: Public Read-Only
+create policy "Allow public read access to portfolio_items"
+on public.portfolio_items for select
+to public
+using (true);
 
--- Chat Messages Table: Public Insert Only (Allow tracking conversations temporarily, usually handled server-side though)
-CREATE POLICY "Allow public insert for chat_messages" ON public.chat_messages FOR INSERT WITH CHECK (true);
--- Optionally allow selecting own session messages if needed for client-side chat history
-CREATE POLICY "Allow reading chat messages by session" ON public.chat_messages FOR SELECT USING (true);
+-- testimonials: Public Read-Only
+create policy "Allow public read access to testimonials"
+on public.testimonials for select
+to public
+using (true);
 
--- Note: In a real production setup, you would add policies for authenticated admins to manage this data.
+-- leads: Public Insert-Only
+create policy "Allow public insert to leads"
+on public.leads for insert
+to public
+with check (true);
+
+-- chat_messages: Public Insert and Read (for session context)
+-- We only allow reading messages if they have the session_id, but here we just allow insert
+create policy "Allow public insert to chat_messages"
+on public.chat_messages for insert
+to public
+with check (true);
+
+create policy "Allow public read chat_messages"
+on public.chat_messages for select
+to public
+using (true);

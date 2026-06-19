@@ -1,0 +1,46 @@
+{
+  "Navigation": {
+    "home": "Home",
+    "package": "Our Package",
+    "portfolio": "Portfolio",
+    "contact": "Contact Us"
+  },
+  "Hero": {
+    "title": "Build Your Digital Presence with Zooma",
+    "subtitle": "We build complete websites and systems for commercial stores in Jordan, helping you reach customers and increase sales.",
+    "cta": "View Package",
+    "secondaryCta": "Contact Us"
+  },
+  "Package": {
+    "title": "The Complete Package",
+    "subtitle": "Everything you need to get started",
+    "price_per_day": "1 JOD/day",
+    "discount_price": "0.35 JOD/day",
+    "discount_monthly": "10.5 JOD/month",
+    "tagline": "Save your spare change every day — just 0.35 piasters",
+    "cta": "Order the Service Now from ZOOMA"
+  },
+  "Contact": {
+    "title": "Contact Us",
+    "subtitle": "We are here to help build your digital success",
+    "name": "Full Name",
+    "phone": "Phone Number",
+    "business_name": "Business/Store Name",
+    "business_type": "Business Type (Restaurant, Supermarket...)",
+    "message": "Your Message (Optional)",
+    "submit": "Submit Request",
+    "success": "Your request has been sent successfully! We will contact you soon."
+  },
+  "Portfolio": {
+    "title": "Our Partners",
+    "subtitle": "Some of the businesses that trust us"
+  },
+  "Testimonials": {
+    "title": "What Our Clients Say",
+    "subtitle": "Real experiences from our partners"
+  },
+  "Footer": {
+    "description": "A digital agency in Jordan specializing in building websites and systems for commercial stores and shops.",
+    "rights": "All rights reserved. Zooma Digital Services."
+  }
+}
