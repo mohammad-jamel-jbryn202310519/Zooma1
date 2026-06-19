@@ -46,20 +46,23 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} dir={dir} className={`${font} h-full antialiased`} style={{ '--dir': dir } as React.CSSProperties}>
-      <body className="min-h-full flex flex-col bg-nude text-foreground">
+      <body className="min-h-full flex flex-col bg-background text-foreground">
         <NextIntlClientProvider messages={messages}>
-          <header className="sticky top-0 z-40 bg-nude/80 backdrop-blur-md border-b border-nude-dark">
+          <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-white/20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex justify-between items-center h-16">
+              <div className="flex justify-between items-center h-20">
                 <div className="flex-shrink-0 flex items-center gap-4">
-                  <Link href="/" className="text-2xl font-bold tracking-tighter text-brand">ZOOMA</Link>
+                  <Link href="/" className="flex items-center">
+                    <img src="/logo.png" alt="Zooma Logo" className="h-16 w-auto object-contain" onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextElementSibling!.classList.remove('hidden'); }} />
+                    <span className="hidden text-2xl font-bold tracking-tighter text-white">ZOOMA</span>
+                  </Link>
                   <LanguageToggle currentLocale={locale} />
                 </div>
                 <nav className="hidden md:flex space-x-8 rtl:space-x-reverse items-center">
-                  <Link href="/" className="text-foreground hover:text-brand font-medium text-sm transition-colors">{t('home')}</Link>
-                  <Link href="/package" className="text-foreground hover:text-brand font-medium text-sm transition-colors">{t('package')}</Link>
-                  <Link href="/portfolio" className="text-foreground hover:text-brand font-medium text-sm transition-colors">{t('portfolio')}</Link>
-                  <Link href="/contact" className="bg-brand text-white px-4 py-2 rounded-full font-medium text-sm hover:bg-brand-dark transition-colors">{t('contact')}</Link>
+                  <Link href="/" className="text-white/90 hover:text-white font-medium text-sm transition-colors">{t('home')}</Link>
+                  <Link href="/package" className="text-white/90 hover:text-white font-medium text-sm transition-colors">{t('package')}</Link>
+                  <Link href="/portfolio" className="text-white/90 hover:text-white font-medium text-sm transition-colors">{t('portfolio')}</Link>
+                  <Link href="/contact" className="bg-white text-brand px-6 py-2.5 rounded-full font-bold text-sm hover:bg-gray-100 transition-colors shadow-lg">{t('contact')}</Link>
                 </nav>
               </div>
             </div>
@@ -69,11 +72,12 @@ export default async function RootLayout({
             {children}
           </main>
 
-          <footer className="bg-nude border-t border-nude-dark py-12">
+          <footer className="bg-background border-t border-white/20 py-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-              <p className="text-xl font-bold tracking-tighter mb-4 text-brand">ZOOMA</p>
-              <p className="text-foreground/70 text-sm">{tf('description')}</p>
-              <p className="text-foreground/50 text-xs mt-8">{tf('rights')}</p>
+              <img src="/logo.png" alt="Zooma Logo" className="h-20 w-auto object-contain mx-auto mb-6" onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextElementSibling!.classList.remove('hidden'); }} />
+              <p className="hidden text-xl font-bold tracking-tighter mb-4 text-white">ZOOMA</p>
+              <p className="text-white/80 text-sm">{tf('description')}</p>
+              <p className="text-white/50 text-xs mt-8">{tf('rights')}</p>
             </div>
           </footer>
 
