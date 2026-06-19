@@ -34,7 +34,10 @@ export default async function PackagePage({ params }: { params: Promise<{ locale
                 <span className="text-2xl text-white/60 line-through">{tp("price_per_day")}</span>
                 <span className="text-5xl md:text-7xl font-black text-white drop-shadow-lg">{tp("discount_price")}</span>
               </div>
-              <p className="text-white/80 text-lg font-medium">({tp("discount_monthly")})</p>
+              <p className="text-white/80 text-lg font-medium">{tp("discount_monthly")}</p>
+              <div className="mt-4 inline-block bg-brand px-5 py-2 rounded-full text-white font-bold text-sm shadow-lg animate-pulse">
+                {tp("validity_note")}
+              </div>
             </div>
           </Reveal>
 

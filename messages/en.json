@@ -13,11 +13,12 @@
   },
   "Package": {
     "title": "The Strongest and Best-Selling Package Now",
-    "subtitle": "Catch the commercial stores offer! Whatever your store is, the 0.35 JOD package keeps you up to date and increases your income. The subscription gives you:",
-    "price_per_day": "1 JOD/day",
-    "discount_price": "0.35 JOD/day",
-    "discount_monthly": "10.5 JOD/month instead of 30 JOD",
-    "tagline": "Save your spare change every day (0.35 JOD) and add this to the package",
+    "subtitle": "Catch the commercial stores offer! Whatever your store is, the 35 piasters package keeps you up to date and increases your income. The subscription gives you:",
+    "price_per_day": "30 JOD/month",
+    "discount_price": "10.5 JOD",
+    "discount_monthly": "(Equivalent to 35 piasters daily)",
+    "tagline": "Save your spare change every day (35 piasters) and add this to the package",
+    "validity_note": "Note: This offer is for a very limited time",
     "cta": "Order the Service Now from ZOOMA",
     "features": {
       "f1": "Website design showcasing your business, products, services, and prices",
