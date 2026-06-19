@@ -62,12 +62,8 @@ function Firework({ position, onComplete }: { position: [number, number, number]
 /* ===== TALL REACTIVE PERSON ===== */
 function TallPerson({
   mouse,
-  armLeftAngle,
-  armRightAngle
 }: {
   mouse: { x: number; y: number };
-  armLeftAngle: number;
-  armRightAngle: number;
 }) {
   const groupRef = useRef<THREE.Group>(null);
 
@@ -114,30 +110,6 @@ function TallPerson({
         <meshBasicMaterial color="#a78bfa" transparent opacity={0.9} />
       </mesh>
 
-      {/* Left arm */}
-      <group position={[-0.18, 0.6, 0]} rotation={[0, 0, armLeftAngle]}>
-        <mesh position={[0, -0.2, 0]}>
-          <capsuleGeometry args={[0.04, 0.3, 8, 8]} />
-          <meshBasicMaterial color="#c4b5fd" transparent opacity={0.85} />
-        </mesh>
-        <mesh position={[0, -0.4, 0]}>
-          <sphereGeometry args={[0.05, 16, 16]} />
-          <meshBasicMaterial color="#e2d4f5" transparent opacity={0.9} />
-        </mesh>
-      </group>
-
-      {/* Right arm */}
-      <group position={[0.18, 0.6, 0]} rotation={[0, 0, armRightAngle]}>
-        <mesh position={[0, -0.2, 0]}>
-          <capsuleGeometry args={[0.04, 0.3, 8, 8]} />
-          <meshBasicMaterial color="#c4b5fd" transparent opacity={0.85} />
-        </mesh>
-        <mesh position={[0, -0.4, 0]}>
-          <sphereGeometry args={[0.05, 16, 16]} />
-          <meshBasicMaterial color="#e2d4f5" transparent opacity={0.9} />
-        </mesh>
-      </group>
-
       {/* Long Legs */}
       <mesh position={[-0.07, -0.2, 0]}>
         <capsuleGeometry args={[0.045, 0.4, 8, 8]} />
@@ -158,16 +130,12 @@ function JumpingPerson({
   isClicking, 
   addFirework,
   facingAngle,
-  armLeftAngle,
-  armRightAngle,
 }: { 
   basePosition: [number, number, number];
   mouse: { x: number; y: number }; 
   isClicking: boolean; 
   addFirework: (x: number, y: number) => void;
   facingAngle: number;
-  armLeftAngle: number;
-  armRightAngle: number;
 }) {
   const groupRef = useRef<THREE.Group>(null);
   const jumpOffset = useRef(0);
@@ -212,12 +180,8 @@ function JumpingPerson({
   });
 
   return (
-    <group ref={groupRef} scale={[1.8, 1.8, 1.8]}>
-      <TallPerson 
-        mouse={mouse}
-        armLeftAngle={armLeftAngle} 
-        armRightAngle={armRightAngle} 
-      />
+    <group ref={groupRef} scale={[1.2, 1.2, 1.2]}>
+      <TallPerson mouse={mouse} />
     </group>
   );
 }
@@ -288,7 +252,8 @@ function InteractiveGlobe() {
 
   // Adjust X position based on screen width so they are always visible
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  const personXOffset = isMobile ? 1.0 : 2.0;
+  const personXOffset = isMobile ? 1.0 : 1.6;
+  const personYOffset = isMobile ? -1.2 : -1.0;
 
   return (
     <>
@@ -312,24 +277,20 @@ function InteractiveGlobe() {
 
       {/* Left Person */}
       <JumpingPerson 
-        basePosition={[-personXOffset, -0.6, 1.0]} 
+        basePosition={[-personXOffset, personYOffset, 1.0]} 
         mouse={mouse} 
         isClicking={isClicking} 
         addFirework={addFirework} 
-        facingAngle={0.2}
-        armLeftAngle={0.4}
-        armRightAngle={-1.2} // Right arm reaches toward middle
+        facingAngle={0.3}
       />
 
       {/* Right Person */}
       <JumpingPerson 
-        basePosition={[personXOffset, -0.6, 1.0]} 
+        basePosition={[personXOffset, personYOffset, 1.0]} 
         mouse={mouse} 
         isClicking={isClicking} 
         addFirework={addFirework} 
-        facingAngle={-0.2}
-        armLeftAngle={1.2} // Left arm reaches toward middle
-        armRightAngle={-0.4}
+        facingAngle={-0.3}
       />
 
       {/* Render Fireworks */}

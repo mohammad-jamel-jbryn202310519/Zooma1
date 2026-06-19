@@ -28,8 +28,7 @@ interface PackageCardsProps {
   companiesData: PackageData;
 }
 
-function PackageCard({ data, defaultOpen = false }: { data: PackageData; defaultOpen?: boolean }) {
-  const [isOpen, setIsOpen] = useState(defaultOpen);
+function PackageCard({ data, isOpen, onToggle }: { data: PackageData; isOpen: boolean; onToggle: () => void }) {
 
   return (
     <motion.div
@@ -47,7 +46,7 @@ function PackageCard({ data, defaultOpen = false }: { data: PackageData; default
 
       {/* Header — always visible, click to toggle */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={onToggle}
         className="w-full flex items-center justify-between p-4 md:p-5 text-start"
         aria-expanded={isOpen}
       >
@@ -147,11 +146,25 @@ function PackageCard({ data, defaultOpen = false }: { data: PackageData; default
 }
 
 export default function PackageCards({ storesData, companiesData }: PackageCardsProps) {
+  const [openId, setOpenId] = useState<'stores' | 'companies' | null>(null);
+
+  const isStoresOpen = openId === 'stores';
+  const isCompaniesOpen = openId === 'companies';
+  const anyOpen = openId !== null;
+
   return (
     <div className="flex flex-col items-center">
-      <div className="grid grid-cols-2 gap-2 md:gap-4 w-full">
-        <PackageCard data={storesData} defaultOpen={false} />
-        <PackageCard data={companiesData} defaultOpen={false} />
+      <div className={`grid ${anyOpen ? 'grid-cols-1' : 'grid-cols-2'} gap-3 md:gap-4 w-full transition-all duration-300`}>
+        <PackageCard 
+          data={storesData} 
+          isOpen={isStoresOpen} 
+          onToggle={() => setOpenId(isStoresOpen ? null : 'stores')} 
+        />
+        <PackageCard 
+          data={companiesData} 
+          isOpen={isCompaniesOpen} 
+          onToggle={() => setOpenId(isCompaniesOpen ? null : 'companies')} 
+        />
       </div>
       <p className="mt-6 text-white/50 text-xs md:text-sm font-semibold tracking-wide flex items-center gap-2">
         <MessageCircle className="w-4 h-4 text-green-400" />
