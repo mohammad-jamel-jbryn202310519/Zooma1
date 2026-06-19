@@ -159,6 +159,8 @@ function JumpingCouple({ mouse, isClicking, addFirework }: { mouse: { x: number;
   const jumpOffset = useRef(0);
   const jumpSpeed = useRef(0);
   const isJumping = useRef(false);
+  const targetRot = useRef(0);
+  const currentRot = useRef(0);
 
   useFrame((state) => {
     if (!groupRef.current) return;
@@ -166,10 +168,12 @@ function JumpingCouple({ mouse, isClicking, addFirework }: { mouse: { x: number;
     // Jump physics
     if (isClicking && !isJumping.current) {
       isJumping.current = true;
-      jumpSpeed.current = 0.25; // Good jump height
+      jumpSpeed.current = 0.15; // Short jump
+      targetRot.current += Math.PI * 2; // Spin one full circle
       
-      // Firework above them
-      addFirework((Math.random() - 0.5) * 4, 1 + Math.random() * 2);
+      // Fireworks around them
+      addFirework((Math.random() - 0.5) * 3, 1.5 + Math.random() * 1.5);
+      addFirework((Math.random() - 0.5) * 3, 1.5 + Math.random() * 1.5);
     }
     
     if (isJumping.current) {
@@ -182,26 +186,30 @@ function JumpingCouple({ mouse, isClicking, addFirework }: { mouse: { x: number;
       }
     }
 
+    // Smoothly apply spin
+    currentRot.current += (targetRot.current - currentRot.current) * 0.1;
+    groupRef.current.rotation.y = currentRot.current;
+
     // Small idle bobbing to look alive
     const time = state.clock.elapsedTime;
     const bob = Math.sin(time * 3) * 0.05;
     
-    // Smoothly apply position
-    groupRef.current.position.y = -2.5 + bob + Math.max(0, jumpOffset.current);
+    // Position on top of the globe
+    groupRef.current.position.y = 1.1 + bob + Math.max(0, jumpOffset.current);
   });
 
   return (
-    <group ref={groupRef} position={[0, -2.5, 2]}>
+    <group ref={groupRef} position={[0, 1.1, 0]}>
       {/* Person 1 (Left) */}
       <TallPerson 
-        position={[-0.45, 0, 0]} 
+        position={[-0.4, 0, 0]} 
         mouse={mouse}
         armLeftAngle={0.3} // Resting
         armRightAngle={-1.2} // Reaching toward middle
       />
       {/* Person 2 (Right) */}
       <TallPerson 
-        position={[0.45, 0, 0]} 
+        position={[0.4, 0, 0]} 
         mouse={mouse}
         armLeftAngle={1.2} // Reaching toward middle
         armRightAngle={-0.3} // Resting
