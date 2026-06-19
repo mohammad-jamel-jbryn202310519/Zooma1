@@ -7,6 +7,7 @@ export const revalidate = 60;
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
+  const t = await getTranslations("Hero");
   const ta = await getTranslations("About");
 
   return (
