@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Outfit, Cairo } from "next/font/google";
 import "../globals.css";
 import ChatWidget from "@/components/ChatWidget";
-import AnimatedBackground from "@/components/AnimatedBackground";
+import Globe3D from "@/components/Globe3D";
 import MobileMenu from "@/components/MobileMenu";
 import { Link } from "@/i18n/routing";
 import { NextIntlClientProvider } from 'next-intl';
@@ -56,7 +56,7 @@ export default async function RootLayout({
     <html lang={locale} dir={dir} className={`${font} h-full antialiased scroll-smooth`} style={{ '--dir': dir } as React.CSSProperties}>
       <body className="min-h-full flex flex-col text-white">
         <NextIntlClientProvider messages={messages}>
-          <AnimatedBackground />
+          <Globe3D />
           
           {/* ===== HEADER ===== */}
           <header className="sticky top-0 z-50 glass-strong">
@@ -95,7 +95,7 @@ export default async function RootLayout({
           </header>
           
           {/* ===== MAIN ===== */}
-          <main className="flex-grow relative z-10">
+          <main className="flex-grow relative z-10 pb-20 md:pb-0">
             {children}
           </main>
 
@@ -118,6 +118,30 @@ export default async function RootLayout({
           </footer>
 
           <ChatWidget />
+
+          {/* ===== MOBILE BOTTOM NAV ===== */}
+          <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden glass-strong border-t border-white/10 safe-area-bottom">
+            <div className="flex justify-around items-center h-16 px-2">
+              <Link href="/" className="flex flex-col items-center gap-0.5 text-white/70 hover:text-white transition-colors py-2 px-3">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                <span className="text-[10px] font-semibold">{t('home')}</span>
+              </Link>
+              <Link href="/package" className="flex flex-col items-center gap-0.5 text-white/70 hover:text-white transition-colors py-2 px-3">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+                <span className="text-[10px] font-semibold">{t('package')}</span>
+              </Link>
+              <Link href="/portfolio" className="flex flex-col items-center gap-0.5 text-white/70 hover:text-white transition-colors py-2 px-3">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                <span className="text-[10px] font-semibold">{t('portfolio')}</span>
+              </Link>
+              <Link href="/contact" className="flex flex-col items-center gap-0.5 py-2 px-3">
+                <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center -mt-4 shadow-lg shadow-purple-500/30">
+                  <svg className="w-5 h-5 text-[#7c3aed]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                </div>
+                <span className="text-[10px] font-semibold text-white">{t('contact')}</span>
+              </Link>
+            </div>
+          </nav>
         </NextIntlClientProvider>
       </body>
     </html>
