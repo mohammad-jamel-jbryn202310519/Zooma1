@@ -8,7 +8,8 @@
   "Hero": {
     "title": "ZOOMA",
     "subtitle_marketing": "Marketing",
-    "subtitle": "The smart one seizes the opportunity! At ZOOMA, we've gathered web developers, social media and brand identity designers, and Google Maps specialists... all in one place! Instead of dealing with multiple agencies, we combined everything you need to upgrade your store. Jordan is embracing this digital evolution, be among the first!",
+    "badge": "A company that merged all developers in one place",
+    "subtitle": "The smart one seizes the opportunity! At ZOOMA, we've gathered web developers, social media and brand identity designers, Google Maps specialists, and Meta ads professionals (Facebook & Instagram) to boost your visibility... all in one place! Instead of dealing with multiple agencies, we combined everything you need to upgrade your store. Jordan is embracing this digital evolution, be among the first!",
     "cta": "View Package",
     "secondaryCta": "Contact Us"
   },
@@ -31,6 +32,13 @@
       "f7": "Technical support throughout the subscription period"
     }
   },
+  "Companies": {
+    "title": "Companies Package",
+    "price": "30 JOD/month",
+    "validity_note": "Limited time offer",
+    "cta": "Contact us via WhatsApp",
+    "description": "For company subscription details, please contact us"
+  },
   "Contact": {
     "title": "Contact Us",
     "subtitle": "We are here to help build your digital success",
@@ -51,7 +59,7 @@
     "subtitle": "Real experiences from our partners"
   },
   "Footer": {
-    "description": "A digital agency in Jordan specializing in building websites and systems for commercial stores and shops.",
+    "description": "A digital company in Jordan that merged all developers and designers in one place to serve stores and businesses.",
     "rights": "All rights reserved. Zooma Digital Services."
   }
 }

@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/supabase/client";
 import { Link } from "@/i18n/routing";
-import { CheckCircle2, Sparkles, ArrowRight } from "lucide-react";
+import { CheckCircle2, Sparkles, ArrowRight, Building2, MessageCircle } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import Reveal from "@/components/Reveal";
 
@@ -10,6 +10,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   const { locale } = await params;
   const t = await getTranslations("Hero");
   const tp = await getTranslations("Package");
+  const tc = await getTranslations("Companies");
   
   const [
     { data: portfolioItemsData },
@@ -37,7 +38,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <div className="mb-4 md:mb-6">
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full glass text-white/90 text-xs font-medium">
                 <Sparkles className="w-3 h-3" />
-                {locale === 'ar' ? 'وكالة رقمية متكاملة' : 'All-in-One Digital Agency'}
+                {t("badge")}
               </span>
             </div>
             <h1 className="text-5xl md:text-[8rem] font-black tracking-tighter mb-0 leading-[0.85] text-shimmer">
@@ -118,6 +119,43 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               </div>
             </Reveal>
           </div>
+        </div>
+      </section>
+
+      {/* ===== COMPANIES CARD ===== */}
+      <section className="py-10 md:py-16 relative">
+        <div className="max-w-lg mx-auto px-4 sm:px-6 lg:px-8">
+          <Reveal direction="up">
+            <div className="price-card rounded-2xl md:rounded-3xl p-6 md:p-10 text-center relative overflow-hidden">
+              {/* Gold accent */}
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-400 via-amber-300 to-yellow-400" />
+              
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 md:px-4 md:py-2 bg-amber-400/20 text-amber-200 rounded-full text-xs font-bold mb-5 md:mb-6 border border-amber-400/30">
+                <Building2 className="w-3.5 h-3.5" />
+                {tc("title")}
+              </div>
+              
+              <div className="mb-4">
+                <span className="text-4xl md:text-6xl font-black text-white drop-shadow-xl">{tc("price")}</span>
+              </div>
+              
+              <div className="inline-block bg-red-500/90 px-3 py-1 md:px-4 md:py-1.5 rounded-full text-white font-bold text-[10px] md:text-xs shadow-lg badge-pulse mb-5">
+                🔥 {tc("validity_note")}
+              </div>
+              
+              <p className="text-white/70 text-xs md:text-sm mb-6 leading-relaxed">{tc("description")}</p>
+              
+              <a
+                href="https://wa.me/962000000000"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-glow inline-flex items-center justify-center gap-2 w-full px-6 py-3 md:py-4 bg-green-500 text-white rounded-full font-bold text-sm md:text-base shadow-xl"
+              >
+                <MessageCircle className="w-4 h-4" />
+                {tc("cta")}
+              </a>
+            </div>
+          </Reveal>
         </div>
       </section>
     </div>
