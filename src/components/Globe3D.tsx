@@ -11,7 +11,7 @@ function Firework({ position, onComplete }: { position: [number, number, number]
   
   const { geometry, velocities } = useMemo(() => {
     const geo = new THREE.BufferGeometry();
-    const count = 40;
+    const count = 30;
     const pos = new Float32Array(count * 3);
     const vel = [];
     for (let i = 0; i < count; i++) {
@@ -34,13 +34,13 @@ function Firework({ position, onComplete }: { position: [number, number, number]
   useFrame(() => {
     if (!pointsRef.current) return;
     const positions = pointsRef.current.geometry.attributes.position.array as Float32Array;
-    age.current += 0.016;
+    age.current += 0.02;
     
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 30; i++) {
       positions[i * 3] += velocities[i * 3];
       positions[i * 3 + 1] += velocities[i * 3 + 1];
       positions[i * 3 + 2] += velocities[i * 3 + 2];
-      velocities[i * 3 + 1] -= 0.002; // Gravity
+      velocities[i * 3 + 1] -= 0.001; // Gravity
     }
     pointsRef.current.geometry.attributes.position.needsUpdate = true;
     
@@ -54,19 +54,17 @@ function Firework({ position, onComplete }: { position: [number, number, number]
 
   return (
     <points ref={pointsRef} position={position} geometry={geometry}>
-      <pointsMaterial color="#fcd34d" size={0.06} transparent opacity={1} sizeAttenuation />
+      <pointsMaterial color="#fcd34d" size={0.08} transparent opacity={1} sizeAttenuation />
     </points>
   );
 }
 
 /* ===== TALL REACTIVE PERSON ===== */
 function TallPerson({
-  position,
   mouse,
   armLeftAngle,
   armRightAngle
 }: {
-  position: [number, number, number];
   mouse: { x: number; y: number };
   armLeftAngle: number;
   armRightAngle: number;
@@ -83,7 +81,7 @@ function TallPerson({
   });
 
   return (
-    <group ref={groupRef} position={position}>
+    <group ref={groupRef}>
       {/* Head */}
       <mesh position={[0, 0.9, 0]}>
         <sphereGeometry args={[0.2, 32, 32]} />
@@ -92,21 +90,21 @@ function TallPerson({
       
       {/* Big Eyes */}
       <mesh position={[-0.08, 0.95, 0.16]}>
-        <sphereGeometry args={[0.06, 16, 16]} />
+        <sphereGeometry args={[0.07, 16, 16]} />
         <meshBasicMaterial color="#ffffff" />
       </mesh>
       <mesh position={[0.08, 0.95, 0.16]}>
-        <sphereGeometry args={[0.06, 16, 16]} />
+        <sphereGeometry args={[0.07, 16, 16]} />
         <meshBasicMaterial color="#ffffff" />
       </mesh>
       
       {/* Pupils tracking cursor */}
-      <mesh position={[-0.08 + mouse.x * 0.03, 0.95 + mouse.y * 0.02, 0.21]}>
-        <sphereGeometry args={[0.03, 16, 16]} />
+      <mesh position={[-0.08 + mouse.x * 0.03, 0.95 + mouse.y * 0.02, 0.22]}>
+        <sphereGeometry args={[0.035, 16, 16]} />
         <meshBasicMaterial color="#4c1d95" />
       </mesh>
-      <mesh position={[0.08 + mouse.x * 0.03, 0.95 + mouse.y * 0.02, 0.21]}>
-        <sphereGeometry args={[0.03, 16, 16]} />
+      <mesh position={[0.08 + mouse.x * 0.03, 0.95 + mouse.y * 0.02, 0.22]}>
+        <sphereGeometry args={[0.035, 16, 16]} />
         <meshBasicMaterial color="#4c1d95" />
       </mesh>
 
@@ -153,14 +151,30 @@ function TallPerson({
   );
 }
 
-/* ===== JUMPING COUPLE ===== */
-function JumpingCouple({ mouse, isClicking, addFirework }: { mouse: { x: number; y: number }; isClicking: boolean; addFirework: (x: number, y: number) => void }) {
+/* ===== SINGLE JUMPING PERSON ===== */
+function JumpingPerson({ 
+  basePosition, 
+  mouse, 
+  isClicking, 
+  addFirework,
+  facingAngle,
+  armLeftAngle,
+  armRightAngle,
+}: { 
+  basePosition: [number, number, number];
+  mouse: { x: number; y: number }; 
+  isClicking: boolean; 
+  addFirework: (x: number, y: number) => void;
+  facingAngle: number;
+  armLeftAngle: number;
+  armRightAngle: number;
+}) {
   const groupRef = useRef<THREE.Group>(null);
   const jumpOffset = useRef(0);
   const jumpSpeed = useRef(0);
   const isJumping = useRef(false);
-  const targetRot = useRef(0);
-  const currentRot = useRef(0);
+  const targetRot = useRef(facingAngle);
+  const currentRot = useRef(facingAngle);
 
   useFrame((state) => {
     if (!groupRef.current) return;
@@ -168,12 +182,11 @@ function JumpingCouple({ mouse, isClicking, addFirework }: { mouse: { x: number;
     // Jump physics
     if (isClicking && !isJumping.current) {
       isJumping.current = true;
-      jumpSpeed.current = 0.15; // Short jump
+      jumpSpeed.current = 0.12; // Short jump
       targetRot.current += Math.PI * 2; // Spin one full circle
       
-      // Fireworks around them
-      addFirework((Math.random() - 0.5) * 3, 1.5 + Math.random() * 1.5);
-      addFirework((Math.random() - 0.5) * 3, 1.5 + Math.random() * 1.5);
+      // Firework right above the person
+      addFirework(basePosition[0], basePosition[1] + 1.5);
     }
     
     if (isJumping.current) {
@@ -192,27 +205,18 @@ function JumpingCouple({ mouse, isClicking, addFirework }: { mouse: { x: number;
 
     // Small idle bobbing to look alive
     const time = state.clock.elapsedTime;
-    const bob = Math.sin(time * 3) * 0.05;
+    const bob = Math.sin(time * 3 + basePosition[0]) * 0.05;
     
-    // Position on top of the globe
-    groupRef.current.position.y = 1.1 + bob + Math.max(0, jumpOffset.current);
+    // Position
+    groupRef.current.position.set(basePosition[0], basePosition[1] + bob + Math.max(0, jumpOffset.current), basePosition[2]);
   });
 
   return (
-    <group ref={groupRef} position={[0, 1.1, 0]}>
-      {/* Person 1 (Left) */}
+    <group ref={groupRef} scale={[1.8, 1.8, 1.8]}>
       <TallPerson 
-        position={[-0.4, 0, 0]} 
         mouse={mouse}
-        armLeftAngle={0.3} // Resting
-        armRightAngle={-1.2} // Reaching toward middle
-      />
-      {/* Person 2 (Right) */}
-      <TallPerson 
-        position={[0.4, 0, 0]} 
-        mouse={mouse}
-        armLeftAngle={1.2} // Reaching toward middle
-        armRightAngle={-0.3} // Resting
+        armLeftAngle={armLeftAngle} 
+        armRightAngle={armRightAngle} 
       />
     </group>
   );
@@ -282,8 +286,13 @@ function InteractiveGlobe() {
     setFireworks(prev => [...prev, { id: Date.now() + Math.random(), x, y }]);
   };
 
+  // Adjust X position based on screen width so they are always visible
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const personXOffset = isMobile ? 1.0 : 2.0;
+
   return (
     <>
+      {/* Central Globe */}
       <group ref={groupRef}>
         <mesh>
           <sphereGeometry args={[1.0, 48, 48]} />
@@ -301,8 +310,29 @@ function InteractiveGlobe() {
         </mesh>
       </group>
 
-      <JumpingCouple mouse={mouse} isClicking={isClicking} addFirework={addFirework} />
+      {/* Left Person */}
+      <JumpingPerson 
+        basePosition={[-personXOffset, -0.6, 1.0]} 
+        mouse={mouse} 
+        isClicking={isClicking} 
+        addFirework={addFirework} 
+        facingAngle={0.2}
+        armLeftAngle={0.4}
+        armRightAngle={-1.2} // Right arm reaches toward middle
+      />
 
+      {/* Right Person */}
+      <JumpingPerson 
+        basePosition={[personXOffset, -0.6, 1.0]} 
+        mouse={mouse} 
+        isClicking={isClicking} 
+        addFirework={addFirework} 
+        facingAngle={-0.2}
+        armLeftAngle={1.2} // Left arm reaches toward middle
+        armRightAngle={-0.4}
+      />
+
+      {/* Render Fireworks */}
       {fireworks.map(fw => (
         <Firework key={fw.id} position={[fw.x, fw.y, 1.5]} onComplete={() => removeFirework(fw.id)} />
       ))}
@@ -317,7 +347,7 @@ export default function Globe3D() {
 
   return (
     <div className="fixed inset-0 z-0 pointer-events-none">
-      <Canvas camera={{ position: [0, 0, 5], fov: 42 }} dpr={[1, 1.5]} gl={{ antialias: true, alpha: true }} style={{ pointerEvents: 'none' }}>
+      <Canvas camera={{ position: [0, 0, 6], fov: 42 }} dpr={[1, 1.5]} gl={{ antialias: true, alpha: true }} style={{ pointerEvents: 'none' }}>
         <ambientLight intensity={0.5} />
         <InteractiveGlobe />
       </Canvas>
