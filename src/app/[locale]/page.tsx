@@ -25,9 +25,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <h1 className="text-[3.5rem] md:text-[7rem] font-black tracking-tighter leading-none mb-0 text-shimmer">
               {t("title")}
             </h1>
-            <h2 className="text-lg md:text-3xl font-bold tracking-tight mb-5 md:mb-7 text-white/75 mt-1">
-              {t("subtitle_marketing")}
-            </h2>
           </Reveal>
           <Reveal delay={0.2}>
             <p className="text-xs md:text-base text-white/65 max-w-xl mx-auto mb-7 md:mb-9 leading-relaxed font-normal">
