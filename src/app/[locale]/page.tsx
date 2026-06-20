@@ -16,10 +16,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <section className="relative pt-14 pb-8 md:pt-32 md:pb-24 overflow-hidden">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <Reveal>
-            <div className="mb-3 md:mb-5">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full glass text-white/85 text-[11px] md:text-xs font-semibold tracking-wide">
-                <Sparkles className="w-3 h-3 flex-shrink-0" />
-                {t("badge")}
+            <div className="mb-4 md:mb-6 flex justify-center">
+              <span className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl glass text-white/90 text-xs md:text-sm font-semibold tracking-wide max-w-2xl text-center leading-relaxed shadow-lg">
+                <Sparkles className="w-4 h-4 flex-shrink-0 text-[#fbbf24]" />
+                <span>{t("badge")}</span>
               </span>
             </div>
             <h1 className="text-[3.5rem] md:text-[7rem] font-black tracking-tighter leading-none mb-0 text-shimmer">
