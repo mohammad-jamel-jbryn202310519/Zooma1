@@ -274,27 +274,32 @@ function InteractiveGlobe() {
         </mesh>
       </group>
 
-      {/* Left Person */}
-      <group scale={[personScale, personScale, personScale]}>
-        <JumpingPerson 
-          basePosition={[-personXOffset / personScale, personYOffset / personScale, 1.0 / personScale]} 
-          mouse={mouse} 
-          isClicking={isClicking} 
-          addFirework={addFirework} 
-          facingAngle={0.3}
-        />
-      </group>
+      {/* Render People Only on Desktop */}
+      {!isMobile && (
+        <>
+          {/* Left Person */}
+          <group scale={[personScale, personScale, personScale]}>
+            <JumpingPerson 
+              basePosition={[-personXOffset / personScale, personYOffset / personScale, 1.0 / personScale]} 
+              mouse={mouse} 
+              isClicking={isClicking} 
+              addFirework={addFirework} 
+              facingAngle={0.3}
+            />
+          </group>
 
-      {/* Right Person */}
-      <group scale={[personScale, personScale, personScale]}>
-        <JumpingPerson 
-          basePosition={[personXOffset / personScale, personYOffset / personScale, 1.0 / personScale]} 
-          mouse={mouse} 
-          isClicking={isClicking} 
-          addFirework={addFirework} 
-          facingAngle={-0.3}
-        />
-      </group>
+          {/* Right Person */}
+          <group scale={[personScale, personScale, personScale]}>
+            <JumpingPerson 
+              basePosition={[personXOffset / personScale, personYOffset / personScale, 1.0 / personScale]} 
+              mouse={mouse} 
+              isClicking={isClicking} 
+              addFirework={addFirework} 
+              facingAngle={-0.3}
+            />
+          </group>
+        </>
+      )}
 
       {/* Render Fireworks */}
       {fireworks.map(fw => (
